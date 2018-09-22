@@ -1,0 +1,312 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% template for II2202 report
+%% original 2015.11.24
+%% revised  2018.08.26
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+\title{ID2205 Project Plan for 'A Development Environment for DMDL'}
+\author{
+        \textsc{Leon Fernandez}
+            \qquad
+        \textsc{Peng Wang}
+        \mbox{}\\
+        \normalsize
+            \texttt{leonfe}
+        \textbar{}
+            \texttt{pengwang}
+        \normalsize
+            \texttt{@kth.se}
+}
+\date{\today}
+
+\documentclass[12pt,twoside]{article}
+
+\usepackage[paper=a4paper,dvips,top=1.5cm,left=1.5cm,right=1.5cm,
+    foot=1cm,bottom=1.5cm]{geometry}
+
+\usepackage{enumitem}
+\usepackage{amsfonts}
+%\usepackage[T1]{fontenc}
+%%\usepackage{pslatex}
+\renewcommand{\rmdefault}{ptm} 
+\usepackage{mathptmx}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+%
+\usepackage{bookmark}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+%------ GANTT PACKAGE --------------------------------------------------------
+\usepackage{pgfgantt}
+%-----------------------------------------------------------------------------
+
+%% \usepackage{pgfmath}	% --math engine
+%%----------------------------------------------------------------------------
+%% \usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc} % inputenc allows the user to input accented characters directly from the keyboard
+\usepackage[swedish,english]{babel}
+%% \usepackage{rotating}		 %% For text rotating
+\usepackage{array}			 %% For table wrapping
+\usepackage{graphicx}	                 %% Support for images
+\usepackage{float}			 %% Suppor for more flexible floating box positioning
+\usepackage{color}                       %% Support for colour 
+\usepackage{mdwlist}
+%% \usepackage{setspace}                 %% For fine-grained control over line spacing
+%% \usepackage{listings}		 %% For source code listing
+%% \usepackage{bytefield}                %% For packet drawings
+\usepackage{tabularx}		         %% For simple table stretching
+%%\usepackage{multirow}	                 %% Support for multirow colums in tables
+\usepackage{dcolumn}	                 %% Support for decimal point alignment in tables
+\usepackage{url}	                 %% Support for breaking URLs
+\usepackage[perpage,para,symbol]{footmisc} %% use symbols to ``number'' footnotes and reset which symbol is used first on each page
+
+%% \usepackage{pygmentize}           %% required to use minted -- see python-pygments - Pygments is a Syntax Highlighting Package written in Python
+%% \usepackage{minted}		     %% For source code highlighting
+
+%% \usepackage{hyperref}		
+\usepackage[all]{hypcap}	 %% Prevents an issue related to hyperref and caption linking
+%% setup hyperref to use the darkblue color on links
+%% \hypersetup{colorlinks,breaklinks,
+%%             linkcolor=darkblue,urlcolor=darkblue,
+%%             anchorcolor=darkblue,citecolor=darkblue}
+
+%% Some definitions of used colors
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3} %% define a color called darkblue
+\definecolor{darkred}{rgb}{0.4,0.0,0.0}
+\definecolor{red}{rgb}{0.7,0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8} 
+\definecolor{grey}{rgb}{0.6,0.6,0.6}
+\definecolor{darkgrey}{rgb}{0.4,0.4,0.4}
+%% Reduce hyphenation as much as possible
+\hyphenpenalty=15000 
+\tolerance=1000
+
+%% useful redefinitions to use with tables
+\newcommand{\rr}{\raggedright} %% raggedright command redefinition
+\newcommand{\rl}{\raggedleft} %% raggedleft command redefinition
+\newcommand{\tn}{\tabularnewline} %% tabularnewline command redefinition
+
+%% definition of new command for bytefield package
+\newcommand{\colorbitbox}[3]{%
+	\rlap{\bitbox{#2}{\color{#1}\rule{\width}{\height}}}%
+	\bitbox{#2}{#3}}
+
+%% command to ease switching to red color text
+\newcommand{\red}{\color{red}}
+%%redefinition of paragraph command to insert a breakline after it
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+%%redefinition of subparagraph command to insert a breakline after it
+\makeatletter
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\setcounter{tocdepth}{3}	%% 3 depth levels in TOC
+\setcounter{secnumdepth}{5}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End of preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\headrulewidth}{0pt}
+\lhead{II2202, Fall 2018, Period 1-2}
+%% or \lhead{II2202, Fall 2016, Period 1}
+\chead{Draft project report}
+\rhead{\date{\today}}
+\makeatletter
+\let\ps@plain\ps@fancy 
+\makeatother
+\setlength{\headheight}{15pt}
+\begin{document}
+
+
+\maketitle
+
+
+\begin{abstract}
+\label{sec:abstract}
+
+This document is the project plan for the project course ID2205 Individual Advanced Studies in Software Systems at KTH Royal Institute of Technology in Stockholm.
+The project will consist of developing a web-based Development Environment (DE) for the graphical programming language Decomposite MAC Description Language (DMDL).
+\end{abstract}
+
+
+\clearpage
+
+
+\selectlanguage{english}
+
+
+\tableofcontents
+
+
+\section*{List of Acronyms and Abbreviations}
+\label{sec:acronyms}
+
+This document requires readers to be familiar with terms and concepts described in \cite{dmdl}. For clarity some basic terms are here summarized for ease of reference.
+\begin{basedescript}{\desclabelstyle{\pushlabel}\desclabelwidth{10em}}
+\item[MAC] Medium Access Control, a sublayer of the second layer of the OSI model\cite{osi}
+\item[DMDL] Decomposite MAC Description Language, a graphical programming language for describing MAC protocols
+\end{basedescript}
+
+
+\clearpage
+
+
+\section{Background}
+\label{sec:background}
+
+Increasing demands on wireless communication systems means increasing demands on wireless system development. Several tools and technologies are used
+to to speed up the development cycle, most notably the Software Defined Radio (SDR) \cite{sdr}. The SDR is a core concept in many tools that support
+digital radio development, such as GNU Radio and LabVIEW. However, most of these tools are either platform-dependent or
+focused on the development of Physical (PHY) layer protocols. New development tools for MAC layer protocols are needed in order to fully utilize
+the flexibility provided by SDRs.
+
+DMDL \cite{dmdl} is a graphical programming language aimed at achieving a swift prototyping and
+development workflow for MAC protocols. DMDL decomposes standard MAC layer operations such as carrier sensing and address lookup into functional blocks
+that can be connected together and modeled acording to the Synchronous Data Flow (SDF) model of computation.
+
+\section{Goals}
+\label{sec:goals}
+
+\subsection{Learning Outcome}
+The expected learning outcome of the project is a deeper understanding of SDRs and MAC protocol simulation and prototyping in
+preparation for a possible thesis collaboration in the future.
+
+\subsection{Deliverables}
+The project is expected to deliver a lightweight, web-based DE for DMDL. The DE need not
+be able to interface with actual SDR hardware at the end of the project. It shall, however, be able to perform a syntax check
+of a program to determine whether that program describes a nonsensical MAC protocol or not.
+
+
+\section{Organization}
+\label{sec:organization}
+
+The project serves as the content in the course ID2205 Individual Advanced Studies in Software Systems at KTH Royal Institute of Technology in Stockholm. 
+Table \ref{tab:people} lists all people involved in the project.
+\begin{table}[!h]
+\renewcommand{\arraystretch}{1.3}
+\caption{The people involved in the project}
+\label{tab:people}
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Name} & \textbf{Contact} & \textbf{Role}\\
+\hline
+Leon Fernandez & leonfe@kth.se & Student, Main Developer\\
+\hline
+Peng Wang & pengwang@kth.se & Project Owner\\
+\hline
+Marina Petrova & petrovam@kth.se & Supervisor\\
+\hline
+Christian Schulte & cschulte@kth.se & Course Examiner\\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Project Overview}
+\label{sec:overview}
+
+The project will constist of three main phases for development, listed in the subsections below. Time
+plan details can be found in Section \ref{sec:commentary} and Appendix \ref{sec:timeplan}.
+
+\subsection{Phase 1: Block Design}
+The focus of the first phase will be on the development of the functional blocks that make up the language
+and the setup of the DEs GUI. The project owner offers a set of template icons that can be used when
+designing the blocks. The developed blocks should have a panel which can be opened via double click or right click
+so that the properties of the block can be set. A property might for instance be the duration if the block is a timer block.
+The blocks and their proprties can be found in the DMDL documentation [\textit{INSERT REFERENCE HERE}].
+\subsubsection{Completion Criteria}
+\begin{itemize}[label={\checkmark}]
+\item A set of blocks that immplement the MAC operations defined by the DMDL language
+\item A canvas where the blocks can be placed
+\item A panel from which the user can select a block to place
+\end{itemize}
+
+\subsection{Phase 2: Connection Design}
+The second phase will consist of developing the mechanisms needed to connect
+the blocks together. This means assigning ports to the blocks which can then be connected using the mouse.
+Ports should be divided into two categories, namely input ports and output ports. Port lists for all blocks
+in the DMDL language can be found in the DMDL documentation [\textit{INSERT REFERENCE HERE}].
+Depending on how the properties of a certain block are set, its port might change. The DE should
+be able to handle this by being able to hide unused ports. Illegal port connections, such as connecting
+and output port to an output port, shall be marked with an error.
+\subsubsection{Completion Criteria}
+\begin{itemize}[label={\checkmark}]
+\item The user can use the mouse to connect the ports of the blocks into a SDF graph
+\item Illegal port connections are highlighted as an error
+\end{itemize}
+
+\subsection{Phase 3: Syntax Check}
+The aim of the third phase is to implement a mechanism for performing a simple syntax check of the user's program.
+Unlike traditional languages, DMDL was specifically designed to describe and handle MAC
+layer protocols. Therefore, the DE should be able to perform a check to verify that the user's program does indeed describe a sensible MAC
+protocol. Non-sensible MAC protocol behavior might for instance be having a "Send"-block but no "Generate Frame"-block. The DE
+should provide the user with helpful feedback for such errors. 
+\subsubsection{Completion Criteria}
+\begin{itemize}[label={\checkmark}]
+\item A button for performing a syntax check 
+\item A panel for displaying error feedback
+\end{itemize}
+
+\subsection{Additional Completion Criteria}
+In addition to the criteria mentioned above the project is also expected to deliver:
+\begin{itemize}[label={\checkmark}]
+\item A well-structured project report that adheres to the course guidelines
+\item A well-documented repository containing all self-written code
+\item A 20 minute oral presentation and demonstration of the project and the DE
+\end{itemize}
+
+\section{Timeplan Commentary}
+\label{sec:commentary}
+\textit{To be written}
+
+
+%\section{Risks}
+%\label{sec:risks}
+
+
+\section{Project Documentation}
+\label{documentation}
+
+The project will be documented in the form of a git repository. All project documentation will be written
+in LaTeX and the corresponding source code will be version handled using git. The source code for the DE will
+be version handled in the same way and in the same repository. Documentation for the DE source code
+will be generated using Doxygen. The project owner and the student will meet on a weekly basis and the
+contents of the meeting will be breifly summarized in a short report that will be available on the git repository as well. 
+
+
+\clearpage
+
+\bibliography{ID2205_Leon_Fernandez_Project_Plan}
+\bibliographystyle{IEEEtran}
+
+\clearpage
+
+\appendix
+\section{Timeplan}
+\label{sec:timeplan}
+
+\begin{ganttchart}{1}{12}
+\gantttitle{2011}{12} \\
+\gantttitlelist{1,...,12}{1} \\
+\ganttgroup{Group 1}{1}{7} \\
+\ganttbar{Task 1}{1}{2} \\
+\ganttlinkedbar{Task 2}{3}{7} \ganttnewline
+\ganttmilestone{Milestone}{7} \ganttnewline
+\ganttbar{Final Task}{8}{12}
+\ganttlink{elem2}{elem3}
+\ganttlink{elem3}{elem4}
+\end{ganttchart}
+
+
+\end{document}

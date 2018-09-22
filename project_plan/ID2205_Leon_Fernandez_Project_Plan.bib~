@@ -1,0 +1,28 @@
+@inproceedings{dmdl,
+	author = {Wang, P. and Petrova, M. and M{\"a}h{\"o}nen, P.},
+	booktitle = {2018 IEEE Wireless Communications and Networking Conference (WCNC)},
+	doi = {10.1109/WCNC.2018.8377397},
+	issn = {1558-2612},
+	keywords = {access protocols; directed graphs; finite state machines; hardware description languages; visual languages; DMDL; Decomposite MAC Description Language; MAC protocol design; modular design philosophy; elementary MAC function components; MAC protocols; finite state machines; Media Access Protocol; Tools; Concurrent computing; Data models; Libraries; Conferences},
+	month = {April},
+	number = {},
+	pages = {1--6},
+	title = {DMDL: A hierarchical approach to design, visualize, and implement MAC protocols},
+	volume = {},
+	year = {2018}
+}
+
+@article{osi,
+	author = {Day, J. D. and Zimmermann, H.},
+	doi = {10.1109/PROC.1983.12775},
+	issn = {0018-9219},
+	journal = {Proceedings of the IEEE},
+	keywords = {Open systems; Standards development; ISO standards; Communication standards; Computer networks; Standards organizations; Protocols; Springs; ARPANET; Packet switching},
+	month = {Dec},
+	number = {12},
+	pages = {1334--1340},
+	title = {The OSI reference model},
+	volume = {71},
+	year = {1983}
+}
+
