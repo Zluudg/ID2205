@@ -1,0 +1,95 @@
+[zluudg@zluudgbox gr-dmdl]$ mkdir build
+[zluudg@zluudgbox gr-dmdl]$ cd build/
+[zluudg@zluudgbox build]$ cmake ..
+-- The CXX compiler identification is GNU 8.2.1
+-- The C compiler identification is GNU 8.2.1
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Build type not specified: defaulting to release.
+CMake Deprecation Warning at CMakeLists.txt:54 (cmake_policy):
+  The OLD behavior for policy CMP0026 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+CMake Deprecation Warning at CMakeLists.txt:57 (cmake_policy):
+  The OLD behavior for policy CMP0043 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+CMake Deprecation Warning at CMakeLists.txt:60 (cmake_policy):
+  The OLD behavior for policy CMP0045 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+CMake Deprecation Warning at CMakeLists.txt:63 (cmake_policy):
+  The OLD behavior for policy CMP0046 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+-- Boost version: 1.62.0
+-- Found the following Boost libraries:
+--   filesystem
+--   system
+-- Found PkgConfig: /usr/bin/pkg-config (found version "1.5.4") 
+-- Found UHD: /usr/lib/libuhd.so  
+-- Checking for module 'cppunit'
+--   Found cppunit, version 1.14.0
+-- Found CPPUNIT: /usr/lib/libcppunit.so;dl  
+-- Found Doxygen: /usr/bin/doxygen (found version "1.8.14") found components:  doxygen dot 
+Checking for GNU Radio Module: RUNTIME
+-- Checking for module 'gnuradio-runtime'
+--   Found gnuradio-runtime, version 3.7.13.4
+ * INCLUDES=/usr/include
+ * LIBS=/lib/libgnuradio-runtime.so;/lib/libgnuradio-pmt.so
+-- Found GNURADIO_RUNTIME: /lib/libgnuradio-runtime.so;/lib/libgnuradio-pmt.so  
+GNURADIO_RUNTIME_FOUND = TRUE
+Checking for GNU Radio Module: DIGITAL
+-- Checking for module 'gnuradio-digital'
+--   Found gnuradio-digital, version 3.7.13.4
+ * INCLUDES=/usr/include
+ * LIBS=/lib/libgnuradio-digital.so;/lib/libgnuradio-runtime.so;/lib/libgnuradio-pmt.so
+-- Found GNURADIO_DIGITAL: /lib/libgnuradio-digital.so;/lib/libgnuradio-runtime.so;/lib/libgnuradio-pmt.so  
+GNURADIO_DIGITAL_FOUND = TRUE
+-- Found Git: /usr/bin/git  
+-- Extracting version information from git describe...
+-- Using install prefix: /usr/local
+-- Building for version: 7c4d9c3c / 1.0.0git
+-- 
+-- Checking for module SWIG
+-- Disabling SWIG because version check failed.
+-- Found PythonLibs: /usr/lib/libpython2.7.so (found suitable version "2.7.15", minimum required is "2") 
+-- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.15", minimum required is "2") 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/zluudg/Software/gr-dmdl/build
+
