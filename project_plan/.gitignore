@@ -5,3 +5,10 @@
 *.log
 *.toc
 *.pdf
+*.blg
+*.aux
+*.bbl
+*.bib~*
+*.log
+*.toc
+*.pdf
