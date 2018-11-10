@@ -1,0 +1,29 @@
+#block-menu {
+    overflow-y: auto;
+    width: 200px;
+    height: 450px;
+    float: left;
+    padding-right: 20px;
+}
+
+#block-menu a {
+    background-color: #dddd;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+#block-menu a:hover {
+    background-color: #aaf;
+}
+
+#block-menu a.menu-head {
+    background-color: #0000FE;
+    color: white;
+}
+
+#block-menu a.active {
+    background-color: #00A0FE;
+    color: black;
+}

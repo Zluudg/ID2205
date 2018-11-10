@@ -1,0 +1,8 @@
+#block-editor {
+    float: right;
+    overflow-y: auto;
+    width: 240px;
+    height: 450px;
+    background-color: #FFDDFF;
+    border: 1px solid #000080;
+}
