@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc} %codification of the document
  
+\usepackage{hyperref}
  
 %Here begins the body of the document
 \begin{document}
@@ -17,6 +18,19 @@ I realized that the API is a bit too complicated for me and that I am probably b
 plain old JavaScript, HTML and CSS. The first version of the editor that I intent to implement will feature a dropdown menu
 with 3-4 blocks, an area for placing the blocks and a configuration menu for the selected instance of a block.
 
+\section{November 10th}
+I started looking into a guide \href{https://simonsarris.com/making-html5-canvas-useful/}{here}.
+The approach is rather boilerplate, which I think is good for getting the basics down.
+
+\section{November 11th}
+Simple dummy blocks can now be added with the editor by doubleclicking. For now
+all blocks are of type ''generic'' and has a fixed number of ports. I intend to make the port
+count configurable in the rightmost menu by bringing up a panel for the selected block where
+the user can add and remove ports, among other things. However, the next step will be
+to extend the generic Block class with some real classes that the user can select
+between in the leftmost menu. That means the three main HTML elements will have to interact.
+
+Most of the work so far follows the guide mentioned in the previous entry.
 \end{document}
 
 

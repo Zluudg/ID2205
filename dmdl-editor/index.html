@@ -10,8 +10,8 @@
   <body>
     <h1 id="headline">Welcome to the DMDL editor</h1>
 
-    <div id="block-menu">
-      <a href="#" class="menu-head">Blocks</a>
+    <div id="blockMenu">
+      <a href="#" class="menuHead">Blocks</a>
       <a href="#" class="active">Start</a>
       <a href="#">Sending</a>
       <a href="#">Timer</a>
@@ -20,11 +20,15 @@
       <a href="#">Buffer</a>
     </div>
 
-    <canvas id="workspace"></canvas>
+    <canvas id="workspace" width="800" height="450"></canvas>
 
-    <div id="block-editor"></div>
+    <div id="blockEditor"></div>
 
-    <script src="scripts/block-menu.js"></script>
+    <script src="scripts/port.js"></script>
+    <script src="scripts/blockmenu.js"></script>
+    <script src="scripts/block.js"></script>
+    <script src="scripts/workspacemodel.js"></script>
+    <script src="scripts/main.js"></script>
   </body>
 
 </html>

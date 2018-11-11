@@ -1,6 +1,6 @@
-@import url("canvas.css");
-@import url("block-menu.css");
-@import url("block-editor.css");
+@import url("workspace.css");
+@import url("blockmenu.css");
+@import url("blockeditor.css");
 
 html {
   font-size: 10px;

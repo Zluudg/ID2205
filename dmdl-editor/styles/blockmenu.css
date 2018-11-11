@@ -1,4 +1,4 @@
-#block-menu {
+#blockMenu {
     overflow-y: auto;
     width: 200px;
     height: 450px;
@@ -6,7 +6,7 @@
     padding-right: 20px;
 }
 
-#block-menu a {
+#blockMenu a {
     background-color: #dddd;
     color: black;
     display: block;
@@ -14,16 +14,16 @@
     text-decoration: none;
 }
 
-#block-menu a:hover {
+#blockMenu a:hover {
     background-color: #aaf;
 }
 
-#block-menu a.menu-head {
+#blockMenu a.menuHead {
     background-color: #0000FE;
     color: white;
 }
 
-#block-menu a.active {
+#blockMenu a.active {
     background-color: #00A0FE;
     color: black;
 }
