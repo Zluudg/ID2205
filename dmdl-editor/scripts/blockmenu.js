@@ -9,10 +9,11 @@ function BlockMenu(menu) {
             continue;
 
         state.elements[i].addEventListener('click',
-            function() {
+            function(e) {
                 var current = state.menu.getElementsByClassName('active')[0];
                 current.className = current.className.replace('active', '');
                 this.className += 'active';
+                workspace.setToBePlaced(this.innerHTML); // TODO change this to actual block object
             });
     }
 }

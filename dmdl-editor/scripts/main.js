@@ -1,6 +1,3 @@
-function main() {
-    var w = new Workspace(document.getElementById('workspace'));
-    var m = new BlockMenu(document.getElementById('blockMenu'));
-}
-
-main();
+// Main
+var workspace = new Workspace(document.getElementById('workspace'));
+var blockMenu = new BlockMenu(document.getElementById('blockMenu'));

@@ -22,6 +22,10 @@ function Block(x, y, portList, blockName) {
 Block.prototype.draw = function(ctx) {
     ctx.fillStyle = this.fill;
     ctx.fillRect(this.x, this.y, this.w, this.h);
+    ctx.fillStyle = '#000000';
+    ctx.strokeRect(this.x, this.y, this.w, this.h);
+    ctx.font = "12px Arial";
+    ctx.fillText(this.blockName, this.x+this.w/6, this.y+this.h/2);
 
     var il = this.inPortList.length;
     for (var i=0; i<il; i++) {

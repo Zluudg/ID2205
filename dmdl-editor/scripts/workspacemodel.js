@@ -49,7 +49,8 @@ function Workspace(canvas) {
         'mousedown',
         function(e) {
             if (state.toBePlaced) {
-                // TODO Handle placement of new blocks
+                var mouse = state.getMouse(e);
+                state.addBlock(mouse.x, mouse.y);
                 return;
             }
             else {
@@ -81,15 +82,15 @@ function Workspace(canvas) {
     canvas.addEventListener(
         'mousemove',
         function(e) {
-            if (state.isDragging) {
+            if (state.toBePlaced) {
+            // TODO paint rectangle around mouse?
+            }
+            else if (state.isDragging) {
                 var mouse = state.getMouse(e);
                 //drag object by offset, not by left corner (x, y)
                 state.focusedBlock.x = mouse.x - state.dragoffx;
                 state.focusedBlock.y = mouse.y - state.dragoffy;
                 state.isValid = false;
-            }
-            else if (state.toBePlaced) {
-            // TODO paint rectangle around mouse?
             }
         },
         true);
@@ -99,9 +100,6 @@ function Workspace(canvas) {
         'mouseup',
         function(e) {
             state.isDragging = false;
-
-            // TODO handle instatiation of new block after placement (mouseup)
-            state.toBePlaced = null;
         },
         true);
 
@@ -110,15 +108,6 @@ function Workspace(canvas) {
         'dblclick',
         function(e) {
             // TODO think of something to use doubleclick for
-            // TODO remove dummy code below that instatiates generic blocks
-            var mouse = state.getMouse(e);
-            var p1 = new Port('in', 'A');
-            var p2 = new Port('in', 'B');
-            var p3 = new Port('in', 'C');
-            var p4 = new Port('in', 'D');
-            var p5 = new Port('out', 'E');
-            var block = new Block(mouse.x, mouse.y, [p1, p2, p3, p4, p5], 'generic');
-            state.addBlock(block);
         },
         true);
 
@@ -134,9 +123,26 @@ function Workspace(canvas) {
 /*
  * Adds a block to the workspace
  */
-Workspace.prototype.addBlock = function(block) {
+Workspace.prototype.addBlock = function(x, y) {
+    //TODO instatiate proper block class based on toBePlaced
+    var p1 = new Port('in', 'A');
+    var p2 = new Port('in', 'B');
+    var p3 = new Port('in', 'C');
+    var p4 = new Port('in', 'D');
+    var p5 = new Port('out', 'E');
+    var block = new Block(x, y,
+                          [p1, p2, p3, p4, p5],
+                          this.toBePlaced);
     this.blockList.push(block);
     this.isValid = false;
+    this.toBePlaced = null;
+}
+
+/*
+ * Sets what type of block will be placed
+ */
+Workspace.prototype.setToBePlaced = function(newBlock) {
+    this.toBePlaced = newBlock;
 }
 
 /*
