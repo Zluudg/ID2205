@@ -51,6 +51,8 @@ function Workspace(canvas) {
             if (state.toBePlaced) {
                 var mouse = state.getMouse(e);
                 state.addBlock(mouse.x, mouse.y);
+                state.focusedBlock = state.blockList[state.blockList.length-1];
+                state.isValid = false;
                 return;
             }
             else {
@@ -59,6 +61,7 @@ function Workspace(canvas) {
                 var my = mouse.y;
                 var blocks = state.blockList;
                 var l = blocks.length;
+
                 for (var i = l-1; i >= 0; i--) {
                     if (blocks[i].contains(mx, my)) {
                         var focus = blocks[i];
@@ -70,9 +73,10 @@ function Workspace(canvas) {
                         return;
                     }
                 }
+
                 if (state.focusedBlock) {
-                  state.focusedBlock = null;
-                  state.isValid = false;
+                    state.focusedBlock = null;
+                    state.isValid = false;
                 }
             }
         },
@@ -112,11 +116,12 @@ function Workspace(canvas) {
         true);
 
     /*
-     * Some options!
+     * Some  drawing options!
      */
     this.selectionColor = '#00CC00';
-    this.selectionWidth = 1;  
+    this.selectionWidth = 2;  
     this.interval = 30;
+    this.d = 10;
     setInterval(function() { state.draw(); }, state.interval);
 }
 
@@ -160,8 +165,9 @@ Workspace.prototype.draw = function() {
         var ctx = this.ctx;
         var blocks = this.blockList;
         this.clear();
-        // draw all blocks
         var l = blocks.length;
+
+        // draw all blocks
         for (var i = 0; i < l; i++) {
             var block = blocks[i];
             if (block.x > this.width || block.y > this.height ||
@@ -170,15 +176,15 @@ Workspace.prototype.draw = function() {
             block.draw(ctx);
         }
     
-    // draw focused block
-    if (this.focusedBlock != null) {
-        ctx.strokeStyle = this.selectionColor;
-        ctx.lineWidth = this.selectionWidth;
-        var focus = this.focusedBlock;
-        var d = 2; // Space between focus mark and block
-        ctx.strokeRect(focus.x-d, focus.y-d, focus.w+2*d, focus.h+2*d);
-    }
-    
+        // draw focused block
+        if (this.focusedBlock != null) {
+            ctx.strokeStyle = this.selectionColor;
+            ctx.lineWidth = this.selectionWidth;
+            var focus = this.focusedBlock;
+            var d = this.d; // Space between focus mark and block
+            ctx.strokeRect(focus.x-d, focus.y-d, focus.w+2*d, focus.h+2*d);
+        }
+        
         // TODO draw connections
 
         this.valid = true;
