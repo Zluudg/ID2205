@@ -30,8 +30,14 @@ function Workspace(canvas) {
     this.focusedBlock = null; // The block currently focused in the editor
     this.dragoffx = 0;
     this.dragoffy = 0; // Offset between top-left block corner and mouseclick
-    this.toBePlaced = null // The block to be placed, if any
     
+    this.toBePlaced = null // The block to be placed, if any
+    this.noGhost = true;
+    this.ghostX = 0;
+    this.ghostY = 0;
+    this.ghostH = 30; // TODO replace H and W with proper block sizes
+    this.ghostW = 45;
+
     // JavaScript closure TODO find out more
     var state = this;    
 
@@ -99,11 +105,14 @@ function Workspace(canvas) {
     canvas.addEventListener(
         'mousemove',
         function(e) {
+            var mouse = state.getMouse(e);
             if (state.toBePlaced) {
-            // TODO paint rectangle around mouse?
+                state.ghostX = mouse.x;
+                state.ghostY = mouse.y;
+                //TODO H and W of block to be placed
+                state.isValid = false;
             }
             else if (state.isDragging) {
-                var mouse = state.getMouse(e);
                 //drag object by offset, not by left corner (x, y)
                 state.focusedBlock.x = mouse.x - state.dragoffx;
                 state.focusedBlock.y = mouse.y - state.dragoffy;
@@ -128,7 +137,23 @@ function Workspace(canvas) {
         },
         true);
 
-    // Disable contextmenu (rightclic) events
+    // Event listener for mouseout events
+    canvas.addEventListener(
+        'mouseleave',
+        function(e) {
+            state.noGhost = true;
+        },
+        true);
+
+    // Event listener for mousein events
+    canvas.addEventListener(
+        'mouseenter',
+        function(e) {
+            state.noGhost = false;
+        },
+        true);
+
+    // Disable contextmenu (rightclick) events
     canvas.addEventListener('contextmenu', event => event.preventDefault());
 
     /*
@@ -164,7 +189,6 @@ Workspace.prototype.addBlock = function(x, y) {
  */
 Workspace.prototype.clearAction = function() {
     // TODO elaborate?
-    // TODO handle cancellation of draggin
     // TODO handle cancelling of wiring
     this.toBePlaced = null;
 }
@@ -211,6 +235,14 @@ Workspace.prototype.draw = function() {
             ctx.strokeRect(focus.x-d, focus.y-d, focus.w+2*d, focus.h+2*d);
         }
         
+        if (this.toBePlaced && !this.noGhost) {
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(this.ghostX,
+                           this.ghostY,
+                           this.ghostW,
+                           this.ghostH);
+        }
         // TODO draw connections
 
         this.valid = true;
