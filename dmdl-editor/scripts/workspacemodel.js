@@ -32,7 +32,7 @@ function Workspace(canvas) {
     this.dragoffy = 0; // Offset between top-left block corner and mouseclick
     this.toBePlaced = null // The block to be placed, if any
     
-    // JavaScript closure
+    // JavaScript closure TODO find out more
     var state = this;    
 
     // Event listener that prevents text selection by double clicking
@@ -48,10 +48,19 @@ function Workspace(canvas) {
     canvas.addEventListener(
         'mousedown',
         function(e) {
-            if (state.toBePlaced) {
+            var isRightMB;
+            e = e || window.event;
+
+            if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+                isRightMB = e.which == 3; 
+            else if ("button" in e)  // IE, Opera 
+                isRightMB = e.button == 2; 
+
+            if (state.toBePlaced && !isRightMB) {
                 var mouse = state.getMouse(e);
                 state.addBlock(mouse.x, mouse.y);
                 state.focusedBlock = state.blockList[state.blockList.length-1];
+                BE.setFocus(state.focusedBlock);
                 state.isValid = false;
                 return;
             }
@@ -69,6 +78,7 @@ function Workspace(canvas) {
                         state.dragoffy = my - focus.y;
                         state.isDragging = true;
                         state.focusedBlock = focus;
+                        BE.setFocus(state.focusedBlock);
                         state.isValid = false;
                         return;
                     }
@@ -76,9 +86,12 @@ function Workspace(canvas) {
 
                 if (state.focusedBlock) {
                     state.focusedBlock = null;
+                    BE.clearFocus();
                     state.isValid = false;
                 }
             }
+            BM.clearActive();
+            state.clearAction();
         },
         true);
 
@@ -115,6 +128,9 @@ function Workspace(canvas) {
         },
         true);
 
+    // Disable contextmenu (rightclic) events
+    canvas.addEventListener('contextmenu', event => event.preventDefault());
+
     /*
      * Some  drawing options!
      */
@@ -140,6 +156,16 @@ Workspace.prototype.addBlock = function(x, y) {
                           this.toBePlaced);
     this.blockList.push(block);
     this.isValid = false;
+    this.toBePlaced = null;
+}
+
+/*
+ * Clears the current action being performed.
+ */
+Workspace.prototype.clearAction = function() {
+    // TODO elaborate?
+    // TODO handle cancellation of draggin
+    // TODO handle cancelling of wiring
     this.toBePlaced = null;
 }
 

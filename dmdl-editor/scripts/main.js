@@ -1,3 +1,4 @@
 // Main
-var workspace = new Workspace(document.getElementById('workspace'));
-var blockMenu = new BlockMenu(document.getElementById('blockMenu'));
+var WS = new Workspace(document.getElementById('workspace'));
+var BM = new BlockMenu(document.getElementById('blockMenu'));
+var BE = new BlockEditor(document.getElementById('blockEditor'));

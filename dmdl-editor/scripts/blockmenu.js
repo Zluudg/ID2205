@@ -11,9 +11,18 @@ function BlockMenu(menu) {
         state.elements[i].addEventListener('click',
             function(e) {
                 var current = state.menu.getElementsByClassName('active')[0];
-                current.className = current.className.replace('active', '');
+                if (current)
+                    current.className = current.className.replace('active', '');
                 this.className += 'active';
-                workspace.setToBePlaced(this.innerHTML); // TODO change this to actual block object
+                WS.setToBePlaced(this.innerHTML); // TODO change this to actual block object
             });
+    }
+}
+
+BlockMenu.prototype.clearActive = function() {
+    for (var i=0; i<this.elements.length; i++) {
+        if (this.elements[i].className == 'menuHead')
+            continue;
+        this.elements[i].className = '';
     }
 }
