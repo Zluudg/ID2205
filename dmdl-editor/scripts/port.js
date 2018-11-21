@@ -22,4 +22,42 @@ Port.prototype.draw = function(ctx, xp, yp) {
                      this.DEFAULT_PORT_SIZE,
                      this.DEFAULT_PORT_SIZE);
     }
-}/
+}
+
+Port.prototype.setState = function(state) {
+    this.state = state;
+}
+
+Port.prototype.getState = function() {
+    return this.state;
+}
+
+Port.prototype.getMode = function() {
+    return this.mode;
+}
+
+function PortE(state) {
+    Port.call(this, 'in', 'E', state);
+}
+inherit(PortE, Port);
+
+function PortB(state) {
+    Port.call(this, 'in', 'B', state);
+}
+inherit(PortB, Port);
+
+function PortQ(state) {
+    Port.call(this, 'in', 'Q', state);
+}
+inherit(PortQ, Port);
+
+function PortU(state) {
+    Port.call(this, 'in', 'U', state);
+}
+inherit(PortU, Port);
+
+function PortDATA(mode, state) {
+    Port.call(this, mode, 'DATA', state);
+}
+inherit(PortDATA, Port);
+
