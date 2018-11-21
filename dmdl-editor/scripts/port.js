@@ -1,7 +1,8 @@
 // Constructor for port object
-function Port(mode, type) {
-    this.mode = mode || 'in'; // TODO handle inout ports
-    this.type = type || '_Unspecified_';
+function Port(mode, type, state) {
+    this.mode = mode || 'in'; // in/out
+    this.type = type || '_Unspecified_'; // A/B/C/D/E/F/G etc.
+    this.state = state || 'disabled'; //enabled/disabled/mandatory/unavailable
     this.DEFAULT_PORT_SIZE = 8;
     this.DEFAULT_PORT_FILL = '#0000FF';
 }
@@ -21,4 +22,4 @@ Port.prototype.draw = function(ctx, xp, yp) {
                      this.DEFAULT_PORT_SIZE,
                      this.DEFAULT_PORT_SIZE);
     }
-}
+}/
