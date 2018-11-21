@@ -171,14 +171,7 @@ function Workspace(canvas) {
  */
 Workspace.prototype.addBlock = function(x, y) {
     //TODO instatiate proper block class based on toBePlaced
-    var p1 = new Port('in', 'A');
-    var p2 = new Port('in', 'B');
-    var p3 = new Port('in', 'C');
-    var p4 = new Port('in', 'D');
-    var p5 = new Port('out', 'E');
-    var block = new Block(x, y,
-                          [p1, p2, p3, p4, p5],
-                          this.toBePlaced);
+    var block = new blockMap[this.toBePlaced](x, y);
     this.blockList.push(block);
     this.isValid = false;
     this.toBePlaced = null;

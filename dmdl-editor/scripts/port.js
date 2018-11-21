@@ -25,6 +25,8 @@ Port.prototype.draw = function(ctx, xp, yp) {
 }
 
 Port.prototype.setState = function(state) {
+    if (state == 'mandatory')
+        return;
     this.state = state;
 }
 
@@ -36,20 +38,35 @@ Port.prototype.getMode = function() {
     return this.mode;
 }
 
-function PortE(state) {
-    Port.call(this, 'in', 'E', state);
+function PortA(state) {
+    Port.call(this, 'in', 'A', state);
 }
-inherit(PortE, Port);
+inherit(PortA, Port);
 
 function PortB(state) {
     Port.call(this, 'in', 'B', state);
 }
 inherit(PortB, Port);
 
+function PortE(state) {
+    Port.call(this, 'out', 'E', state); //TODO error in GR-DMDL manual?
+}
+inherit(PortE, Port);
+
+function PortG(state) {
+    Port.call(this, 'in', 'G', state);
+}
+inherit(PortG, Port);
+
 function PortQ(state) {
     Port.call(this, 'in', 'Q', state);
 }
 inherit(PortQ, Port);
+
+function PortS(state) {
+    Port.call(this, 'in', 'S', state);
+}
+inherit(PortS, Port);
 
 function PortU(state) {
     Port.call(this, 'in', 'U', state);

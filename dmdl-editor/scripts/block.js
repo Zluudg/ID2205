@@ -10,11 +10,11 @@ function Block(x, y, portList, blockName) {
     this.x = x || 0;
     this.y = y || 0;
 
-    this.portList = [];
+    this.portList = portList;
     this.inPortList = [];
     this.outPortList = [];
     this.maxPortCount = 0;
-    this.addPorts(portList);
+    this.updatePorts();
 
     this.blockName = blockName || '_Generic_';
 }
@@ -51,18 +51,15 @@ Block.prototype.contains = function(mx, my) {
           (this.y <= my) && (this.y + this.h >= my);
 }
 
-// TODO Block.prototype.removePort
+Block.prototype.updatePorts = function() {
+    for (var i=0; i<this.portList.length; i++) {
+        if (this.portList[i].state == 'disabled')
+            continue;
 
-Block.prototype.addPorts = function(ports) {
-    for (var i=0; i<ports.length; i++) {
-        this.portList.push(ports[i]);
-        if (ports[i].mode == 'in')
-            this.inPortList.push(ports[i]);
-        else if (ports[i].mode == 'out')
-            this.outPortList.push(ports[i]);
-        else
-            alert('ERROR! Port mode not specified, port ignored.');
-        // TODO add support for "inout" ports
+        if (this.portList[i].mode == 'in')
+            this.inPortList.push(this.portList[i]);
+        else if (this.portList[i].mode == 'out')
+            this.outPortList.push(this.portList[i]);
     }
 
     this.maxPortCount = Math.max(this.inPortList.length,
@@ -71,3 +68,46 @@ Block.prototype.addPorts = function(ports) {
         this.h += this.DEFAULT_HEIGHT/2;
     }
 }
+
+function BlockDummySource(x, y) {
+    Block.call(this,
+               x, y,
+               [
+                new PortB('mandatory'),
+                new PortE('mandatory'),
+                new PortS('disabled')
+               ],
+               'Dummy Source');
+}
+inherit(BlockDummySource, Block);
+
+function BlockStart(x, y) {
+    Block.call(this,
+               x, y,
+               [
+                new PortB('mandatory')
+               ],
+               'Start');
+}
+inherit(BlockStart, Block);
+
+function BlockTimer(x, y) {
+    Block.call(this,
+               x, y,
+               [
+                new PortB('mandatory'),
+                new PortG('disabled'),
+                new PortA('disabled'),
+                new PortS('disabled'),
+                new PortE('mandatory')
+               ],
+               'Timer');
+}
+inherit(BlockTimer, Block);
+
+// global variable that can be used to call different constructors based on a string
+var blockMap = {
+    'Dummy Source': BlockDummySource,
+    'Start': BlockStart,
+    'Timer': BlockTimer
+    };
