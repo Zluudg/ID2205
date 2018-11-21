@@ -48,6 +48,11 @@ function PortB(state) {
 }
 inherit(PortB, Port);
 
+function PortD(state) {
+    Port.call(this, 'in', 'D', state);
+}
+inherit(PortD, Port);
+
 function PortE(state) {
     Port.call(this, 'out', 'E', state); //TODO error in GR-DMDL manual?
 }
@@ -57,6 +62,26 @@ function PortG(state) {
     Port.call(this, 'in', 'G', state);
 }
 inherit(PortG, Port);
+
+function PortH(state) {
+    Port.call(this, 'in', 'H', state);
+}
+inherit(PortH, Port);
+
+function PortL(state) {
+    Port.call(this, 'out', 'L', state);
+}
+inherit(PortL, Port);
+
+function PortM(state) {
+    Port.call(this, 'out', 'M', state);
+}
+inherit(PortM, Port);
+
+function PortN(state) {
+    Port.call(this, 'out', 'N', state);
+}
+inherit(PortN, Port);
 
 function PortQ(state) {
     Port.call(this, 'in', 'Q', state);
@@ -69,12 +94,47 @@ function PortS(state) {
 inherit(PortS, Port);
 
 function PortU(state) {
-    Port.call(this, 'in', 'U', state);
+    Port.call(this, 'out', 'U', state);
 }
 inherit(PortU, Port);
+
+function PortACK(mode, state) {
+    Port.call(this, mode, 'ACK', state);
+}
+inherit(PortACK, Port);
+
+function PortAMP(mode, state) {
+    Port.call(this, mode, 'AMP', state);
+}
+inherit(PortAMP, Port);
+
+function PortAMS(mode, state) {
+    Port.call(this, mode, 'AMS', state);
+}
+inherit(PortAMS, Port);
+
+function PortBACK(mode, state) {
+    Port.call(this, mode, 'BACK', state);
+}
+inherit(PortBACK, Port);
+
+function PortBCO(mode, state) {
+    Port.call(this, mode, 'BCO', state);
+}
+inherit(PortBCO, Port);
+
+function PortCTS(mode, state) {
+    Port.call(this, mode, 'CTS', state);
+}
+inherit(PortCTS, Port);
 
 function PortDATA(mode, state) {
     Port.call(this, mode, 'DATA', state);
 }
 inherit(PortDATA, Port);
+
+function PortRTS(mode, state) {
+    Port.call(this, mode, 'RTS', state);
+}
+inherit(PortRTS, Port);
 

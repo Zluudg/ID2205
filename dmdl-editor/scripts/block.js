@@ -69,6 +69,22 @@ Block.prototype.updatePorts = function() {
     }
 }
 
+function BlockBuffer(x, y) {
+    Block.call(this,
+               x, y,
+               [
+                new PortQ('mandatory'),
+                new PortD('mandatory'),
+                new PortU('mandatory'),
+                new PortH('disabled'),
+                new PortL('disabled'),
+                new PortM('disabled'),
+                new PortN('disabled'),
+               ],
+               'Buffer');
+}
+inherit(BlockBuffer, Block);
+
 function BlockDummySource(x, y) {
     Block.call(this,
                x, y,
@@ -80,6 +96,43 @@ function BlockDummySource(x, y) {
                'Dummy Source');
 }
 inherit(BlockDummySource, Block);
+
+function BlockFraming(x, y) {
+    Block.call(this,
+               x, y,
+               [
+                new PortB('mandatory'),
+                new PortDATA('out', 'disabled'),
+                new PortACK('out', 'disabled'),
+                new PortBCO('out', 'disabled'),
+                new PortRTS('out', 'disabled'),
+                new PortCTS('out', 'disabled'),
+                new PortAMS('out', 'disabled'),
+                new PortAMP('out', 'disabled'),
+                new PortBACK('out', 'disabled'),
+               ],
+               'Framing');
+}
+inherit(BlockFraming, Block);
+
+function BlockSending(x, y) {
+    Block.call(this,
+               x, y,
+               [
+                new PortB('mandatory'),
+                new PortG('disabled'),
+                new PortDATA('out', 'disabled'),
+                new PortACK('out', 'disabled'),
+                new PortBCO('out', 'disabled'),
+                new PortRTS('out', 'disabled'),
+                new PortCTS('out', 'disabled'),
+                new PortAMS('out', 'disabled'),
+                new PortAMP('out', 'disabled'),
+                new PortBACK('out', 'disabled'),
+               ],
+               'Sending');
+}
+inherit(BlockSending, Block);
 
 function BlockStart(x, y) {
     Block.call(this,
@@ -107,7 +160,10 @@ inherit(BlockTimer, Block);
 
 // global variable that can be used to call different constructors based on a string
 var blockMap = {
+    'Buffer': BlockBuffer,
     'Dummy Source': BlockDummySource,
+    'Framing': BlockFraming,
+    'Sending': BlockSending,
     'Start': BlockStart,
     'Timer': BlockTimer
     };
