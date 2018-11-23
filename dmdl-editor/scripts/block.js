@@ -52,6 +52,10 @@ Block.prototype.contains = function(mx, my) {
 }
 
 Block.prototype.updatePorts = function() {
+    this.inPortList = [];
+    this.outPortList = [];
+    this.h = this.DEFAULT_HEIGHT;
+
     for (var i=0; i<this.portList.length; i++) {
         if (this.portList[i].state == 'disabled')
             continue;
@@ -69,6 +73,18 @@ Block.prototype.updatePorts = function() {
     }
 }
 
+Block.prototype.getPort = function(p) {
+    var l = this.portList.length;
+    for (var i=0; i<l; i++) {
+        var port = this.portList[i];
+        if (port.type==p)
+            return port;
+    }
+}
+
+/*
+ * HERE BE SUBCLASSES
+ */
 function BlockBuffer(x, y) {
     Block.call(this,
                x, y,

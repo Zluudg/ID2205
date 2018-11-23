@@ -14,7 +14,7 @@ function BlockMenu(menu) {
                 if (current)
                     current.className = current.className.replace('active', '');
                 this.className += 'active';
-                WS.setToBePlaced(this.innerHTML); // TODO change this to actual block object
+                WS.setToBePlaced(this.innerHTML);
             });
     }
 }
