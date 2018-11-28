@@ -114,7 +114,6 @@ function Workspace(canvas) {
             if (state.toBePlaced) {
                 state.ghostX = mouse.x;
                 state.ghostY = mouse.y;
-                //TODO H and W of block to be placed
                 state.isValid = false;
             }
             else if (state.isDragging) {
