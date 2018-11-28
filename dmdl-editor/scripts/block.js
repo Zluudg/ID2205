@@ -31,19 +31,9 @@ Block.prototype.draw = function(ctx) {
     ctx.font = "12px Arial";
     ctx.fillText(this.blockName, this.x+this.w/6, this.y+this.h/2);
 
-    var il = this.inPortList.length;
-    for (var i=0; i<il; i++) {
-        var xp = this.x;
-        var yp = this.y + (i+1)*this.h/(il+1);
-        this.inPortList[i].draw(ctx, xp, yp);
-    }
+    for (var i=0; i<this.portList.length; i++)
+        this.portList[i].draw(ctx);
 
-    var ol = this.outPortList.length;
-    for (var i=0; i<ol; i++) {
-        var xp = this.x + this.w;
-        var yp = this.y + (i+1)*this.h/(ol+1);
-        this.outPortList[i].draw(ctx, xp, yp);
-    }
 }
 
 Block.prototype.contains = function(mx, my) {
@@ -55,21 +45,49 @@ Block.prototype.updatePorts = function() {
     this.inPortList = [];
     this.outPortList = [];
     this.h = this.DEFAULT_HEIGHT;
+    var il = 0;
+    var ol = 0;
 
+    // calculate No. enabled In/Out ports for use in next step
     for (var i=0; i<this.portList.length; i++) {
-        if (this.portList[i].state == 'disabled')
+
+        var port = this.portList[i];
+
+        if (port.state == 'disabled')
             continue;
 
-        if (this.portList[i].mode == 'in')
-            this.inPortList.push(this.portList[i]);
-        else if (this.portList[i].mode == 'out')
-            this.outPortList.push(this.portList[i]);
+        if (port.mode == 'in')
+            il++;
+        else if (port.mode == 'out')
+            ol++;
     }
 
-    this.maxPortCount = Math.max(this.inPortList.length,
-                                 this.outPortList.length);
-    for (var i=2; i<this.maxPortCount; i+=2) {
+    // add height to block depending on whether block as more In ports or Out ports
+    this.maxPortCount = Math.max(il, ol);
+    for (var i=2; i<this.maxPortCount; i+=2)
         this.h += this.DEFAULT_HEIGHT/2;
+
+    var outCount = 0;
+    var inCount = 0;
+    for (var i=0; i<this.portList.length; i++) {
+
+        var port = this.portList[i];
+
+        if (port.state == 'disabled')
+            continue;
+
+        if (port.mode == 'in') {
+            port.x = this.x - port.DEFAULT_PORT_SIZE;
+            port.y = this.y + (inCount+1)*this.h/(il+1) - port.DEFAULT_PORT_SIZE/2;
+            this.inPortList.push(port);
+            inCount++;
+        }
+        else if (port.mode == 'out') {
+            port.x = this.x + this.w;
+            port.y = this.y + (outCount+1)*this.h/(ol+1) - port.DEFAULT_PORT_SIZE/2;
+            this.outPortList.push(port);
+            outCount++;
+        }
     }
 }
 

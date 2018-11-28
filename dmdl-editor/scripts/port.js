@@ -4,23 +4,23 @@ function Port(mode, type, state) {
     this.type = type || '_Unspecified_'; // A/B/C/D/E/F/G etc.
     this.state = state || 'disabled'; //enabled/disabled/mandatory/unavailable
     this.DEFAULT_PORT_SIZE = 8;
-    this.DEFAULT_PORT_FILL = '#0000FF';
+    this.DEFAULT_INPORT_FILL = '#0000FF';
+    this.DEFAULT_OUTPORT_FILL = '#FF8800'; 
+    this.x = 0;
+    this.y = 0;
 }
 
-Port.prototype.draw = function(ctx, xp, yp) {
-    ctx.fillStyle = this.DEFAULT_PORT_FILL;
-    
+Port.prototype.draw = function(ctx) {
+    if (this.state == 'disabled')
+        return;
+
     if (this.mode == 'in') {
-        ctx.fillRect(xp - this.DEFAULT_PORT_SIZE, // compensate for port width
-                     yp - this.DEFAULT_PORT_SIZE/2,
-                     this.DEFAULT_PORT_SIZE,
-                     this.DEFAULT_PORT_SIZE);
+        ctx.fillStyle = this.DEFAULT_INPORT_FILL;    
+        ctx.fillRect(this.x, this.y, this.DEFAULT_PORT_SIZE, this.DEFAULT_PORT_SIZE);
     }
     else if (this.mode == 'out') {
-        ctx.fillRect(xp,
-                     yp - this.DEFAULT_PORT_SIZE/2,
-                     this.DEFAULT_PORT_SIZE,
-                     this.DEFAULT_PORT_SIZE);
+        ctx.fillStyle = this.DEFAULT_OUTPORT_FILL;
+        ctx.fillRect(this.x, this.y, this.DEFAULT_PORT_SIZE, this.DEFAULT_PORT_SIZE);
     }
 }
 

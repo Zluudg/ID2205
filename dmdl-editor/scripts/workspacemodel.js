@@ -30,13 +30,18 @@ function Workspace(canvas) {
     this.focusedBlock = null; // The block currently focused in the editor
     this.dragoffx = 0;
     this.dragoffy = 0; // Offset between top-left block corner and mouseclick
-    
+
     this.toBePlaced = null // The block to be placed, if any
     this.noGhost = true;
     this.ghostX = 0;
     this.ghostY = 0;
     this.ghostH = 30; // TODO replace H and W with proper block sizes
     this.ghostW = 45;
+
+    this.selectedPort = null;
+    this.isWiring = false;
+    this.wireStartX;
+    this.wireStartY;
 
     // JavaScript closure TODO find out more
     var state = this;    
@@ -116,6 +121,7 @@ function Workspace(canvas) {
                 //drag object by offset, not by left corner (x, y)
                 state.focusedBlock.x = mouse.x - state.dragoffx;
                 state.focusedBlock.y = mouse.y - state.dragoffy;
+                state.focusedBlock.updatePorts();
                 state.isValid = false;
             }
         },
