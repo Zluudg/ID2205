@@ -1,0 +1,17 @@
+*.aux
+*.bbl
+*.bib~*
+*.blg
+*.log
+*.toc
+*.pdf
+*.blg
+*.aux
+*.bbl
+*.bib~*
+*.log
+*.toc
+*.pdf
+*.synctex.gz
+*.out
+*.odg
