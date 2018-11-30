@@ -10,7 +10,11 @@
 % The header comments and encoding in this file were modified for inclusion with TeXworks.
 % The content is otherwise unchanged from the original distributed with the beamer package.
 
+
 \documentclass{beamer}
+
+% No navigation symbols in bottom right corner
+\beamertemplatenavigationsymbolsempty
 
 \mode<presentation>
 {
@@ -20,7 +24,6 @@
   \setbeamercovered{transparent}
   % or whatever (possibly just delete it)
 }
-
 
 \usepackage[english]{babel}
 % or whatever
@@ -35,7 +38,7 @@
 
 
 \title[ID2205 Status Report] % (optional, use only with long paper titles)
-{A Development Environment for DMDL}
+{A Development Environment for DMDL, Status Report}
 
 \author{Leon Fernandez}
 
@@ -62,157 +65,177 @@
 \begin{document}
 
 \begin{frame}
-  \titlepage
+ 	\titlepage
 \end{frame}
 
 \begin{frame}{Outline}
-  \tableofcontents
+ 	\tableofcontents
 \end{frame}
 
 \section{Intro}
 
 \subsection{Background}
 
-\begin{frame}{Make Titles Informative. Use Uppercase Letters.}{Subtitles are optional.}
-  % - A title should summarize the slide in an understandable fashion
-  %   for anyone how does not follow everything on the slide itself.
-
-  \begin{itemize}
-  \item
-    Use \texttt{itemize} a lot.
-  \item
-    Use very short sentences or short phrases.
-  \end{itemize}
+\begin{frame}{Software Defined Radios}
+	What is it?
+	\begin{itemize}
+		\item<2-> Wideband transciever
+		\item<3-> A ''reprogrammable'' radio
+		\item<4-> Largely a KTH effort [SOURCES]
+	\end{itemize}
 \end{frame}
 
-\subsection{DMDL}
-\begin{frame}{Make Titles Informative. Use Uppercase Letters.}{Subtitles are optional.}
-  % - A title should summarize the slide in an understandable fashion
-  %   for anyone how does not follow everything on the slide itself.
+\begin{frame}{Software Defined Radios}
+	Why SDRs?	
+	\begin{itemize}
+		\item<2-> Highly flexible
+		\item<3-> Fast prototyping and implementation of protocols
+		\item<4-> Wideband operation
+	\end{itemize}
+\end{frame}
 
-  \begin{itemize}
-  \item
-    Use \texttt{itemize} a lot.
-  \item
-    Use very short sentences or short phrases.
-  \end{itemize}
+
+\subsection{DMDL}
+\begin{frame}{Brief Description}
+	DMDL
+	\begin{itemize}
+		\item<2-> A graphical programming language
+		\item<3-> Visually represent MAC layer protocols
+		\item<4-> Synchronous Data Flow MoC
+	\end{itemize}
+
+	\onslide<5->{
+	Read more
+	\begin{itemize}
+		\item SOURCE 1
+		\item SOURCE 2
+	\end{itemize}
+	}
 \end{frame}
 
 \subsection{Motivation}
 
-\begin{frame}{Make Titles Informative.}
-
-  You can create overlays\dots
-  \begin{itemize}
-  \item using the \texttt{pause} command:
-    \begin{itemize}
-    \item
-      First item.
-      \pause
-    \item    
-      Second item.
-    \end{itemize}
-  \item
-    using overlay specifications:
-    \begin{itemize}
-    \item<3->
-      First item.
-    \item<4->
-      Second item.
-    \end{itemize}
-  \item
-    using the general \texttt{uncover} command:
-    \begin{itemize}
-      \uncover<5->{\item
-        First item.}
-      \uncover<6->{\item
-        Second item.}
-    \end{itemize}
-  \end{itemize}
+\begin{frame}{Why DMDL?}
+	Most SDR flexibility exists only within the \textbf{PHY} layer.\\
+	DMDL aims to extend the flexibility to the \textbf{MAC} layer.
 \end{frame}
 
+\begin{frame}{Why a Web DE?}
+	Flexibility is the name of the game. \\
+	If you have a browser, you can build a MAC protocol.
+\end{frame}
 
 \subsection{Goals}
 
-\begin{frame}{Make Titles Informative.}
+\begin{frame}{Goals}
+	\begin{itemize}
+		\item<2-> Learning Outcomes
+		\begin{itemize}
+			\item<3-> MAC protocol simulation
+			\item<4-> Preparation for thesis
+		\end{itemize}
+
+		\item<5-> Deliverables
+		\begin{itemize}
+			\item<6-> Simple web-based DE
+			\item<7-> Syntax check
+			\item<8-> (Optional) Export to platform-independent format (.xml) 
+		\end{itemize}
+	\end{itemize}
 \end{frame}
 
-\begin{frame}{Make Titles Informative.}
+\begin{frame}{NOT covered}
+	\begin{itemize}
+		\item<2-> No backend
+		\begin{itemize}
+			\item<3-> DE consists of HTML-, CSS- and JS-files and that's it
+		\end{itemize}
+		\item<4-> No platform integration
+		\begin{itemize}
+			\item<5-> Exports intermediate representation (.xml) and nothing more
+		\end{itemize}
+	\end{itemize}
 \end{frame}
-
-
 
 \section{Method}
 
 \subsection{Languages}
-
-\begin{frame}{Make Titles Informative.}
+\begin{frame}{Languages}
+	First time doing web development
+	\begin{itemize}
+		\item<2-> Native JavaScript (ECS 5)
+		\item<3-> HTML 5
+		\item<4-> CSS 3
+	\end{itemize}
 \end{frame}
-
-\begin{frame}{Make Titles Informative.}
-\end{frame}
-
-\begin{frame}{Make Titles Informative.}
-\end{frame}
-
 
 \subsection{Tools}
-
-\begin{frame}{Make Titles Informative.}
+\begin{frame}{Tools}
+	Keepin' it simple
+	\begin{itemize}
+		\item<2-> Firefox 63
+		\item<3-> Gedit 3
+	\end{itemize}
 \end{frame}
 
-\begin{frame}{Make Titles Informative.}
+\subsection{UML Code Overview}
+\begin{frame}{UML Code Overview}
+\centering
+	\begin{figure}
+ 		\includegraphics[width=\linewidth]{dmdl-editor.png}
+		\caption{Overview of the code structure.}
+		\label{fig:uml}
+	\end{figure}
 \end{frame}
-
-\begin{frame}{Make Titles Informative.}
-\end{frame}
-
-\subsection{UML Visualization}
 
 \section{Status}
 
 \subsection{Milestones}
 \begin{frame}{Make Titles Informative.}
+\centering
+	\begin{tabular}{|c|c|c|} \hline
+		\textbf{Milestone} & \textbf{Date} & \textbf{Status} \\ \hline
+		Change appearance & Nov 2nd & Done \\ \hline
+		Place blocks & Nov 7th & Done \\ \hline
+		Block ports & Nov 12th & Done \\ \hline
+		Connect ports & Nov 19th & Not Done \\ \hline
+		Dropdown config & Nov 29th & Done \\ \hline
+	\end{tabular}
 \end{frame}
 
+
 \subsection{UML Revisited}
-\begin{frame}{Make Titles Informative.}
+\begin{frame}{Status in terms of UML}
+\centering
+	\begin{figure}
+ 		\includegraphics[width=\linewidth]{dmdl-editor-status.png}
+ 		\caption{Work status of the different classes.}
+ 		\label{fig:uml-status}
+	\end{figure}
 \end{frame}
+
 
 \subsection{To Do}
 \begin{frame}{Make Titles Informative.}
+	What are the next steps?
+	\begin{itemize}
+		\item<2-> Wiring
+		\item<3-> Block internals
+	\end{itemize}
 \end{frame}
 
 
 \section*{Summary}
 \begin{frame}{Summary}
-
-  % Keep the summary *very short*.
-  \begin{itemize}
-  \item
-    The \alert{first main message} of your talk in one or two lines.
-  \item
-    The \alert{second main message} of your talk in one or two lines.
-  \item
-    Perhaps a \alert{third message}, but not more than that.
-  \end{itemize}
-  
-  % The following outlook is optional.
-  \vskip0pt plus.5fill
-  \begin{itemize}
-  \item
-    Outlook
-    \begin{itemize}
-    \item
-      Something you haven't solved.
-    \item
-      Something else you haven't solved.
-    \end{itemize}
-  \end{itemize}
+\begin{itemize}
+	\item Mostly on track, might have to do a bit of work during the holidays...
+	\item DE right now is ''hollow''. No syntax check and no export.
+	\item Git: \url{https://github.com/Zluudg/ID2205.git}
+\end{itemize}
 \end{frame}
 
 \section*{Demo and Questions}
-\begin{frame}{}
+\begin{frame}{Demo and Questions}
 \end{frame}
 
 
