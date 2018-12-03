@@ -122,17 +122,51 @@
 \section{Background}
 \subsection{Software Defined Radios}
 \begin{frame}{Software Defined Radios}
+	\includegraphics[width=\linewidth]{digital.eps}
+	%https://all-free-download.com/free-vector/download/digital-communication-concept-cityscape-and-ui-design-style_6826344.html
+\end{frame}
+\begin{frame}{Software Defined Radios}
+	\begin{figure}
+ 		\includegraphics[width=0.65\linewidth]{osi.jpg}
+ 		\label{fig:osi}
+	\end{figure}
 \end{frame}
 
 \subsection{Medium Access Control}
 \begin{frame}{Medium Access Control}
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
+	\hfill
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
+\end{frame}
+
+\begin{frame}{Medium Access Control}
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
+	\hfill
+	\includegraphics[width=0.2\linewidth]{wave.eps}
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
+\end{frame}
+
+\begin{frame}{Medium Access Control}
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
+	\includegraphics[width=0.2\linewidth,angle=180,origin=c]{wave.eps}
+	\hfill
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
+\end{frame}
+
+\begin{frame}{Medium Access Control}
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
+	\includegraphics[width=0.2\linewidth,angle=180,origin=c]{wave.eps}
+	\includegraphics[width=0.16\linewidth]{error.png}
+	%https://www.iconfinder.com/photo3idea
+	\includegraphics[width=0.2\linewidth]{wave.eps}
+	\includegraphics[width=0.2\linewidth]{wireless.eps}
 \end{frame}
 
 \subsection{Decomposite MAC Description Language}
 \begin{frame}{Decomposite MAC Description Language}
 	\begin{figure}
  		\includegraphics[width=\linewidth]{dummy_source.png}
- 		\label{fig:aloha}
+ 		\label{fig:dummy}
 	\end{figure}
 \end{frame}
 
@@ -152,17 +186,19 @@ Time for a quick demo!
 \section{Status}
 \subsection{Method}
 \begin{frame}{Method}
-	First time doing web development
-	\begin{itemize}
-		\item Native JavaScript (ECMAScript 5)
-		\item HTML 5
-		\item CSS 3
-	\end{itemize}
-	Keepin' it simple
-	\begin{itemize}
-		\item Firefox 63
-		\item Gedit 3
-	\end{itemize}
+	First time doing web development \vfill
+	\includegraphics[width=0.075\linewidth]{js.png}
+		%https://www.iconfinder.com/Sennerstad
+	\includegraphics[width=0.075\linewidth]{html.png}
+		%By W3C, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=12736763
+ 	\includegraphics[width=0.075\linewidth]{css.png} \vfill
+	Keepin' it simple \vfill
+	\includegraphics[width=0.075\linewidth]{firefox.png}
+		%By The Mozilla Foundation - https://design.firefox.com/photon/visuals/product-identity-assets.htmlhttps://github.com/FirefoxUX/product-identity, CC BY 3.0,
+		%https:// commons.wikimedia.org/w/index.php?curid=62823019
+ 	\includegraphics[width=0.1\linewidth]{gedit.png} \vfill
+		%By Henry Peters - projects.gnome.org/gedit, Commit, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=14094446
+		
 \end{frame}
 
 \subsection{UML Code Overview}
@@ -205,23 +241,22 @@ Time for a quick demo!
 
 \subsection{Next Steps}
 \begin{frame}{Next Steps}
-	What are the next steps?
-	\begin{itemize}
-		\item Wiring
-		\item Block internals
-	\end{itemize}
+	\begin{figure}
+ 		\includegraphics[width=\linewidth]{frame_buffer.png}
+ 		\label{fig:frame_buffer}
+	\end{figure}
 \end{frame}
 
 \begin{frame}{Future Work}
+	Backend
 	\begin{itemize}
-		\item No backend
-		\begin{itemize}
-			\item DE consists of HTML-, CSS- and JavaScript-files and that's it
-		\end{itemize}
-		\item No platform integration
-		\begin{itemize}
-			\item Exports intermediate representation (.xml) and nothing more
-		\end{itemize}
+		\item DE only consists of HTML-, CSS- and JavaScript-files
+		\item<2-> Backend that can simulate the system
+	\end{itemize}
+	Platform integration
+	\begin{itemize}
+		\item Exports intermediate representation (.xml) and nothing more
+		\item<3-> ''Glue'' between .xml-file and software such as GNURadio or Simulink
 	\end{itemize}
 \end{frame}
 
