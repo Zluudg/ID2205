@@ -10,6 +10,16 @@ function Port(mode, type, state) {
     this.y = 0;
 }
 
+Port.prototype.contains = function(mx, my) {
+  return (this.x <= mx) && (this.x + this.DEFAULT_PORT_SIZE >= mx) &&
+         (this.y <= my) && (this.y + this.DEFAULT_PORT_SIZE >= my);
+}
+
+Port.prototype.center = function() {
+    return [this.x + this.DEFAULT_PORT_SIZE/2,
+            this.y + this.DEFAULT_PORT_SIZE/2];
+}
+
 Port.prototype.draw = function(ctx) {
     if (this.state == 'disabled')
         return;

@@ -67,6 +67,8 @@ function Workspace(canvas) {
             else if ("button" in e)  // IE, Opera 
                 isRightMB = e.button == 2; 
 
+            // If we are currently placing and left mouse was clicked we place the
+            // block and then return
             if (state.toBePlaced && !isRightMB) {
                 var mouse = state.getMouse(e);
                 state.addBlock(mouse.x, mouse.y);
@@ -82,21 +84,47 @@ function Workspace(canvas) {
                 var blocks = state.blockList;
                 var l = blocks.length;
 
-                for (var i = l-1; i >= 0; i--) {
-                    if (blocks[i].contains(mx, my)) {
-                        var focus = blocks[i];
+                for (var i=l-1; i>=0; i--) {
+                    var block = blocks[i];
+                    if (block.contains(mx, my)) {
+                        var focus = block;
                         state.dragoffx = mx - focus.x;
                         state.dragoffy = my - focus.y;
                         state.isDragging = true;
+                        state.isWiring = false;
+                        state.focusedPort = null;
                         state.focusedBlock = focus;
                         BE.setFocus(state.focusedBlock);
                         state.isValid = false;
                         return;
                     }
+                    else {
+                        var lp = block.getActivePorts().length;
+                        var ports = block.getActivePorts();
+                        for (var j=lp-1; j>=0; j--) {
+                            var port = ports[j];
+                            if (port.contains(mx, my)) {
+                                var focus = port;
+                                state.isDragging = false;
+                                state.isWiring = true;
+                                state.focusedBlock = null; // TODO setMode function to handle state? Enumeration of action?
+                                BE.clearFocus();
+                                state.focusedPort = port;
+                                state.wireStartX = port.x;
+                                state.wireStartY = port.y;
+                                state.isValid = false;
+                                return;
+                            }
+                        }
+                    }
                 }
 
-                if (state.focusedBlock) {
+                if (state.focusedBlock ||
+                    state.focusedBlock) {
                     state.focusedBlock = null;
+                    state.focusedPort = null;
+                    state.wireStartX = null;
+                    state.wireStartY = null;
                     BE.clearFocus();
                     state.isValid = false;
                 }
@@ -188,6 +216,9 @@ Workspace.prototype.addBlock = function(x, y) {
 Workspace.prototype.clearAction = function() {
     // TODO elaborate?
     // TODO handle cancelling of wiring
+    this.focusedPort = null;
+    this.wireStartX = null;
+    this.wireStartY = null;
     this.toBePlaced = null;
 }
 
@@ -232,7 +263,19 @@ Workspace.prototype.draw = function() {
             var d = this.d; // Space between focus mark and block
             ctx.strokeRect(focus.x-d, focus.y-d, focus.w+2*d, focus.h+2*d);
         }
-        
+
+        // draw focus port
+        if (this.focusedPort != null) {
+            ctx.strokeStyle = this.selectionColor;
+            ctx.lineWidth = this.selectionWidth;
+            var focus = this.focusedPort;
+            ctx.beginPath();
+            ctx.arc(this.focusedPort.center()[0],
+                    this.focusedPort.center()[1],
+                    10,0,2*Math.PI);
+            ctx.stroke(); 
+        }
+
         if (this.toBePlaced && !this.noGhost) {
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 1;

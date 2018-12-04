@@ -41,6 +41,9 @@ Block.prototype.contains = function(mx, my) {
           (this.y <= my) && (this.y + this.h >= my);
 }
 
+Block.prototype.getActivePorts = function() {
+    return this.outPortList.concat(this.inPortList);
+}
 Block.prototype.updatePorts = function() {
     this.inPortList = [];
     this.outPortList = [];
