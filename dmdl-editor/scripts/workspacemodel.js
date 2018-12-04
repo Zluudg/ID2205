@@ -38,6 +38,7 @@ function Workspace(canvas) {
     this.ghostH = 30; // TODO replace H and W with proper block sizes
     this.ghostW = 45;
 
+    this.wireList = [];
     this.selectedPort = null;
     this.isWiring = false;
     this.wireStartX;
@@ -104,15 +105,21 @@ function Workspace(canvas) {
                         for (var j=lp-1; j>=0; j--) {
                             var port = ports[j];
                             if (port.contains(mx, my)) {
-                                var focus = port;
-                                state.isDragging = false;
-                                state.isWiring = true;
-                                state.focusedBlock = null; // TODO setMode function to handle state? Enumeration of action?
-                                BE.clearFocus();
-                                state.focusedPort = port;
-                                state.wireStartX = port.x;
-                                state.wireStartY = port.y;
-                                state.isValid = false;
+                                if (state.isWiring) {
+                                    state.addWire(state.focusedPort, port);
+                                    return;
+                                }
+                                else {
+                                    var focus = port;
+                                    state.isDragging = false;
+                                    state.isWiring = true;
+                                    state.focusedBlock = null; // TODO setMode function to handle state? Enumeration of action?
+                                    BE.clearFocus();
+                                    state.focusedPort = port;
+                                    state.wireStartX = port.x;
+                                    state.wireStartY = port.y;
+                                    state.isValid = false;
+                                }
                                 return;
                             }
                         }
@@ -120,7 +127,7 @@ function Workspace(canvas) {
                 }
 
                 if (state.focusedBlock ||
-                    state.focusedBlock) {
+                    state.focusedPort) {
                     state.focusedBlock = null;
                     state.focusedPort = null;
                     state.wireStartX = null;
@@ -210,6 +217,16 @@ Workspace.prototype.addBlock = function(x, y) {
     this.toBePlaced = null;
 }
 
+Workspace.prototype.addWire = function(startPort, endPort) {
+    var wire = new Wire(startPort, endPort);
+    this.wireList.push(wire);
+    this.isValid = false;
+    this.focusedPort = null;
+    this.wireStartX = null;
+    this.wireStartY = null;
+    this.isWiring = false;
+}
+
 /*
  * Clears the current action being performed.
  */
@@ -243,8 +260,10 @@ Workspace.prototype.draw = function() {
     if (!this.isValid) {
         var ctx = this.ctx;
         var blocks = this.blockList;
+        var wires = this.wireList;
         this.clear();
         var l = blocks.length;
+        var lw = wires.length;
 
         // draw all blocks
         for (var i = 0; i < l; i++) {
@@ -274,6 +293,11 @@ Workspace.prototype.draw = function() {
                     this.focusedPort.center()[1],
                     10,0,2*Math.PI);
             ctx.stroke(); 
+        }
+
+        // draw all lines
+        for (var i=0; i<lw; i++) {
+            wires[i].draw(ctx);
         }
 
         if (this.toBePlaced && !this.noGhost) {
