@@ -43,6 +43,9 @@
 }
 \setbeamercolor{footline}{fg=blue}
 
+% Color for fonts
+\usepackage{xcolor}
+
 \usepackage[english]{babel}
 % or whatever
 
@@ -170,6 +173,13 @@
 	\end{figure}
 \end{frame}
 
+\begin{frame}{Decomposite MAC Description Language}
+	\begin{figure}
+ 		\includegraphics[width=\linewidth]{graph.png}
+ 		\label{fig:graph}
+	\end{figure}
+\end{frame}
+
 \subsection{Motivation}
 \begin{frame}{Motivation}
 	\begin{figure}
@@ -214,16 +224,16 @@ Time for a quick demo!
 \centering
 	\begin{tabular}{|c|c|c|} \hline
 		\textbf{Milestone} & \textbf{Date} & \textbf{Status} \\ \hline
-		Change appearance & Nov 2nd & Done \\ \hline
-		Place blocks & Nov 7th & Done \\ \hline
-		Block ports & Nov 12th & Done \\ \hline
-		Connect ports & Nov 19th & Not Done \\ \hline
-		Dropdown config & Nov 29th & Done \\ \hline
-		Block internals & Dec 14th & Not Done \\ \hline
-		Store config & Dec 18th & Not Done \\ \hline
-		Check+Start buttons & Dec 21st & Not Done \\ \hline
-		Syntax check & Jan 7th & Not Done \\ \hline
-		Final presentation & Mid-January & Not Done \\ \hline
+		Change appearance & Nov 2nd & \color{green}{Done} \\ \hline
+		Place blocks & Nov 7th & \color{green}{Done} \\ \hline
+		Block ports & Nov 12th & \color{green}{Done} \\ \hline
+		Connect ports & Nov 19th & \color{green}{Done} \\ \hline
+		Dropdown config & Nov 29th & \color{green}{Done} \\ \hline
+		Block internals & Dec 14th & \color{red}{Not Done} \\ \hline
+		Store config & Dec 18th & \color{red}{Not Done} \\ \hline
+		Check+Start buttons & Dec 21st & \color{red}{Not Done} \\ \hline
+		Syntax check & Jan 7th & \color{red}{Not Done} \\ \hline
+		Final presentation & Mid-January & \color{red}{Not Done} \\ \hline
 	\end{tabular}
 \end{frame}
 
@@ -237,12 +247,6 @@ Time for a quick demo!
 	\end{figure}
 \end{frame}
 
-
-\subsection{Next Steps}
-\begin{frame}{Next Steps}
- 		\includegraphics[width=\linewidth]{simple_timer_complete.png}
-\end{frame}
-
 \subsection*{Summary}
 \begin{frame}{Summary}
 \begin{itemize}
@@ -250,6 +254,11 @@ Time for a quick demo!
 	\item DE right now is ''hollow''. No syntax check and no export.
 	\item Git: \url{https://github.com/Zluudg/ID2205.git}
 \end{itemize}
+\end{frame}
+
+\subsection*{Next Steps}
+\begin{frame}{Next Steps}
+ 		\includegraphics[width=\linewidth]{simple_timer_complete.png}
 \end{frame}
 
 \section*{Future Work}
