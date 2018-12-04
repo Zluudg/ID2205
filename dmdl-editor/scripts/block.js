@@ -1,6 +1,6 @@
 // Constructor for block object
 function Block(x, y, portList, blockName) {
-    this.DEFAULT_FILL = '#FF44CC'; // TODO move these to constants    
+    this.DEFAULT_FILL = '#FFDDFF'; // TODO move these to constants
     this.DEFAULT_WIDTH = 78;
     this.DEFAULT_HEIGHT = 48;
 
