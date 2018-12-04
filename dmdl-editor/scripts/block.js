@@ -175,7 +175,7 @@ function BlockStart(x, y) {
     Block.call(this,
                x, y,
                [
-                new PortB('mandatory')
+                new PortE('mandatory')
                ],
                'Start');
 }
