@@ -44,157 +44,15 @@ function Workspace(canvas) {
     this.wireStartX;
     this.wireStartY;
 
-    // JavaScript closure TODO find out more
-    var state = this;    
-
-    // Event listener that prevents text selection by double clicking
-    canvas.addEventListener(
-        'selectstart',
-        function(e) {
-            e.preventDefault();
-            return false;
-        },
-        false);
-
-    // Event listener for mousedown events
-    canvas.addEventListener(
-        'mousedown',
-        function(e) {
-            var isRightMB;
-            e = e || window.event;
-
-            if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-                isRightMB = e.which == 3; 
-            else if ("button" in e)  // IE, Opera 
-                isRightMB = e.button == 2; 
-
-            // If we are currently placing and left mouse was clicked we place the
-            // block and then return
-            if (state.toBePlaced && !isRightMB) {
-                var mouse = state.getMouse(e);
-                state.addBlock(mouse.x, mouse.y);
-                state.focusedBlock = state.blockList[state.blockList.length-1];
-                BE.setFocus(state.focusedBlock);
-                state.isValid = false;
-                return;
-            }
-            else {
-                var mouse = state.getMouse(e);
-                var mx = mouse.x;
-                var my = mouse.y;
-                var blocks = state.blockList;
-                var l = blocks.length;
-
-                for (var i=l-1; i>=0; i--) {
-                    var block = blocks[i];
-                    if (block.contains(mx, my)) {
-                        var focus = block;
-                        state.dragoffx = mx - focus.x;
-                        state.dragoffy = my - focus.y;
-                        state.isDragging = true;
-                        state.isWiring = false;
-                        state.focusedPort = null;
-                        state.focusedBlock = focus;
-                        BE.setFocus(state.focusedBlock);
-                        state.isValid = false;
-                        return;
-                    }
-                    else {
-                        var lp = block.getActivePorts().length;
-                        var ports = block.getActivePorts();
-                        for (var j=lp-1; j>=0; j--) {
-                            var port = ports[j];
-                            if (port.contains(mx, my)) {
-                                if (state.isWiring) {
-                                    state.addWire(state.focusedPort, port);
-                                    return;
-                                }
-                                else {
-                                    var focus = port;
-                                    state.isDragging = false;
-                                    state.isWiring = true;
-                                    state.focusedBlock = null; // TODO setMode function to handle state? Enumeration of action?
-                                    BE.clearFocus();
-                                    state.focusedPort = port;
-                                    state.wireStartX = port.x;
-                                    state.wireStartY = port.y;
-                                    state.isValid = false;
-                                }
-                                return;
-                            }
-                        }
-                    }
-                }
-
-                if (state.focusedBlock ||
-                    state.focusedPort) {
-                    state.focusedBlock = null;
-                    state.focusedPort = null;
-                    state.wireStartX = null;
-                    state.wireStartY = null;
-                    BE.clearFocus();
-                    state.isValid = false;
-                }
-            }
-            BM.clearActive();
-            state.clearAction();
-        },
-        true);
-
-    // Event listener for mousemove events    
-    canvas.addEventListener(
-        'mousemove',
-        function(e) {
-            var mouse = state.getMouse(e);
-            if (state.toBePlaced) {
-                state.ghostX = mouse.x;
-                state.ghostY = mouse.y;
-                state.isValid = false;
-            }
-            else if (state.isDragging) {
-                //drag object by offset, not by left corner (x, y)
-                state.focusedBlock.x = mouse.x - state.dragoffx;
-                state.focusedBlock.y = mouse.y - state.dragoffy;
-                state.focusedBlock.updatePorts();
-                state.isValid = false;
-            }
-        },
-        true);
-
-    // Event listener for mouseup events
-    canvas.addEventListener(
-        'mouseup',
-        function(e) {
-            state.isDragging = false;
-        },
-        true);
-
-    // Event listener for doubleclick events
-    canvas.addEventListener(
-        'dblclick',
-        function(e) {
-            // TODO think of something to use doubleclick for
-        },
-        true);
-
-    // Event listener for mouseout events
-    canvas.addEventListener(
-        'mouseleave',
-        function(e) {
-            state.noGhost = true;
-        },
-        true);
-
-    // Event listener for mousein events
-    canvas.addEventListener(
-        'mouseenter',
-        function(e) {
-            state.noGhost = false;
-        },
-        true);
-
-    // Disable contextmenu (rightclick) events
-    canvas.addEventListener('contextmenu', event => event.preventDefault());
+    var state = this;
+    canvas.addEventListener('selectstart', function(e) {state.selectstartHandler(e)}, false);
+    canvas.addEventListener('mousedown', function(e) {state.mousedownHandler(e)}, true);
+    canvas.addEventListener('mousemove', function(e) {state.mousemoveHandler(e)}, true);
+    canvas.addEventListener('mouseup', function(e) {state.mouseupHandler(e)}, true);
+    canvas.addEventListener('dblclick', function(e) {state.dblclickHandler(e)}, false);
+    canvas.addEventListener('mouseleave', function(e) {state.mouseleaveHandler(e)}, true);
+    canvas.addEventListener('mouseenter', function(e) {state.mouseenterHandler(e)}, true);
+    canvas.addEventListener('contextmenu', function(e) {state.contextmenuHandler(e)}, false);
 
     /*
      * Some  drawing options!
@@ -313,6 +171,132 @@ Workspace.prototype.draw = function() {
         this.valid = true;
     }
 }
+
+
+
+Workspace.prototype.selectstartHandler = function(e) {
+    e.preventDefault();
+    return false;
+}
+
+Workspace.prototype.mousedownHandler = function(e) {
+    var isRightMB;
+    e = e || window.event;
+
+    if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+        isRightMB = e.which == 3; 
+    else if ("button" in e)  // IE, Opera 
+        isRightMB = e.button == 2; 
+
+    // If we are currently placing and left mouse was clicked we place the
+    // block and then return
+    if (this.toBePlaced && !isRightMB) {
+        var mouse = this.getMouse(e);
+        this.addBlock(mouse.x, mouse.y);
+        this.focusedBlock = this.blockList[this.blockList.length-1];
+        BE.setFocus(this.focusedBlock);
+        this.isValid = false;
+        return;
+    }
+    else {
+        var mouse = this.getMouse(e);
+        var mx = mouse.x;
+        var my = mouse.y;
+        var blocks = this.blockList;
+        var l = blocks.length;
+
+        for (var i=l-1; i>=0; i--) {
+            var block = blocks[i];
+            if (block.contains(mx, my)) {
+                var focus = block;
+                this.dragoffx = mx - focus.x;
+                this.dragoffy = my - focus.y;
+                this.isDragging = true;
+                this.isWiring = false;
+                this.focusedPort = null;
+                this.focusedBlock = focus;
+                BE.setFocus(this.focusedBlock);
+                this.isValid = false;
+                return;
+            }
+            else {
+                var lp = block.getActivePorts().length;
+                var ports = block.getActivePorts();
+                for (var j=lp-1; j>=0; j--) {
+                    var port = ports[j];
+                    if (port.contains(mx, my)) {
+                        if (this.isWiring) {
+                            this.addWire(this.focusedPort, port);
+                            return;
+                        }
+                        else {
+                            var focus = port;
+                            this.isDragging = false;
+                            this.isWiring = true;
+                            this.focusedBlock = null; // TODO setMode function to handle state? Enumeration of action?
+                            BE.clearFocus();
+                            this.focusedPort = port;
+                            this.wireStartX = port.x;
+                            this.wireStartY = port.y;
+                            this.isValid = false;
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (this.focusedBlock || this.focusedPort) {
+            this.focusedBlock = null;
+            this.focusedPort = null;
+            this.wireStartX = null;
+            this.wireStartY = null;
+            BE.clearFocus();
+            this.isValid = false;
+        }
+    }
+    BM.clearActive();
+    this.clearAction();
+}
+
+Workspace.prototype.mousemoveHandler = function(e) {
+    var mouse = this.getMouse(e);
+    if (this.toBePlaced) {
+        this.ghostX = mouse.x;
+        this.ghostY = mouse.y;
+        this.isValid = false;
+    }
+    else if (this.isDragging) {
+        //drag object by offset, not by left corner (x, y)
+        this.focusedBlock.x = mouse.x - this.dragoffx;
+        this.focusedBlock.y = mouse.y - this.dragoffy;
+        this.focusedBlock.updatePorts();
+        this.isValid = false;
+    }
+}
+
+Workspace.prototype.mouseupHandler = function(e) {
+    this.isDragging = false;
+}
+
+Workspace.prototype.dblclickHandler = function(e) {
+    e.preventDefault();
+    return false;
+}
+
+Workspace.prototype.mouseleaveHandler = function(e) {
+    this.noGhost = true;
+}
+
+Workspace.prototype.mouseenterHandler = function(e) {
+    this.noGhost = false;
+}
+
+Workspace.prototype.contextmenuHandler = function(e) {
+    e.preventDefault();
+    return false;
+}
+
 
 // TODO study this function closer
 // Creates an object with x and y defined,
