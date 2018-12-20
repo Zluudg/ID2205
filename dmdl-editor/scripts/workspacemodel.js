@@ -67,8 +67,10 @@ function Workspace(canvas) {
      * Drawing configurations!
      */
     this.isValid = false;
-    this.selectionColor = '#00CC00';
-    this.selectionWidth = 2;  
+    this.blockSelectionColor = '#00CC00';
+    this.blockSelectionWidth = 2;
+    this.portSelectionColor = '#DDDD00';
+    this.portSelectionWidth = 2;  
     this.interval = 30;
     this.d = 10;
     setInterval(function() { state.draw(); }, state.interval);
@@ -140,8 +142,8 @@ Workspace.prototype.draw = function() {
     
         // draw focused block
         if (this.focusedBlock != null) {
-            ctx.strokeStyle = this.selectionColor;
-            ctx.lineWidth = this.selectionWidth;
+            ctx.strokeStyle = this.blockSelectionColor;
+            ctx.lineWidth = this.blockSelectionWidth;
             var focus = this.focusedBlock;
             var d = this.d; // Space between focus mark and block
             ctx.strokeRect(focus.x-d, focus.y-d, focus.w+2*d, focus.h+2*d);
@@ -149,8 +151,8 @@ Workspace.prototype.draw = function() {
 
         // draw focus port
         if (this.focusedPort != null) {
-            ctx.strokeStyle = this.selectionColor;
-            ctx.lineWidth = this.selectionWidth;
+            ctx.strokeStyle = this.portSelectionColor;
+            ctx.lineWidth = this.portSelectionWidth;
             var focus = this.focusedPort;
             ctx.beginPath();
             ctx.arc(this.focusedPort.center()[0],
