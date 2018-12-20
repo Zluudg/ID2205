@@ -6,3 +6,5 @@ var inherit = function(child, parent) {
         enumerable: false,
         writable: true});
 }
+
+var ModeEnum = Object.freeze({IDLE:1, PLACE:2, DRAG:3, WIRE:4, DELETE:5})

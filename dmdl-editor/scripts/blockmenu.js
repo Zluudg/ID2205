@@ -14,7 +14,7 @@ function BlockMenu(menu) {
                 if (current)
                     current.className = current.className.replace('active', '');
                 this.className += 'active';
-                WS.setToBePlaced(this.innerHTML);
+                WS.toBePlaced = this.innerHTML;
             });
     }
 }

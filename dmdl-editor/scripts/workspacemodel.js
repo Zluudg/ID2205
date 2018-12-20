@@ -24,26 +24,33 @@ function Workspace(canvas) {
     this.htmlLeft = html.offsetLeft;
     // init code --------------------------------------------------------------
 
-    this.isValid = false;
-    this.isDragging = false;
+
+    /*
+     * Blocks!
+     */
     this.blockList = [];
     this.focusedBlock = null; // The block currently focused in the editor
     this.dragoffx = 0;
     this.dragoffy = 0; // Offset between top-left block corner and mouseclick
-
     this.toBePlaced = null // The block to be placed, if any
-    this.noGhost = true;
-    this.ghostX = 0;
-    this.ghostY = 0;
-    this.ghostH = 30; // TODO replace H and W with proper block sizes
-    this.ghostW = 45;
+    this.noBlockGhost = true;
+    this.ghostBlockX = null;
+    this.ghostBlockX = null;
+    this.ghostBlockH = 30;
+    this.ghostBlockW = 45;
 
+    /*
+     * Wires!
+     */
     this.wireList = [];
-    this.selectedPort = null;
-    this.isWiring = false;
-    this.wireStartX;
-    this.wireStartY;
+    this.focusedPort = null;
+    this.noWireGhost = true;
+    this.ghostWireX = null;
+    this.ghostWireY = null;
 
+    /*
+     * Mouse event handlers!
+     */
     var state = this;
     canvas.addEventListener('selectstart', function(e) {state.selectstartHandler(e)}, false);
     canvas.addEventListener('mousedown', function(e) {state.mousedownHandler(e)}, true);
@@ -54,9 +61,12 @@ function Workspace(canvas) {
     canvas.addEventListener('mouseenter', function(e) {state.mouseenterHandler(e)}, true);
     canvas.addEventListener('contextmenu', function(e) {state.contextmenuHandler(e)}, false);
 
+    this.mode = ModeEnum.IDLE;
+
     /*
-     * Some  drawing options!
+     * Drawing configurations!
      */
+    this.isValid = false;
     this.selectionColor = '#00CC00';
     this.selectionWidth = 2;  
     this.interval = 30;
@@ -64,44 +74,39 @@ function Workspace(canvas) {
     setInterval(function() { state.draw(); }, state.interval);
 }
 
+Workspace.prototype.setFocus = function(f) {
+    if (f instanceof Block) {
+        this.focusedPort = null;
+        this.focusedBlock = f;
+    }
+    else if (f instanceof Port) {
+        this.focusedPort = f;
+        this.focusedBlock = null;
+    }
+    else if (f = null) {
+        this.focusedPort = null;
+        this.focusedBlock = null;
+    }
+    else {
+        this.focusedPort = null;
+        this.focusedBlock = null;
+    }
+}
+
 /*
  * Adds a block to the workspace
  */
-Workspace.prototype.addBlock = function(x, y) {
-    //TODO instatiate proper block class based on toBePlaced
-    var block = new blockMap[this.toBePlaced](x, y);
+Workspace.prototype.addBlock = function(x, y, b) {
+    var block = new blockMap[b](x, y);
     this.blockList.push(block);
-    this.isValid = false;
-    this.toBePlaced = null;
 }
 
+/*
+ * Adds a wire to the workspace
+ */
 Workspace.prototype.addWire = function(startPort, endPort) {
     var wire = new Wire(startPort, endPort);
     this.wireList.push(wire);
-    this.isValid = false;
-    this.focusedPort = null;
-    this.wireStartX = null;
-    this.wireStartY = null;
-    this.isWiring = false;
-}
-
-/*
- * Clears the current action being performed.
- */
-Workspace.prototype.clearAction = function() {
-    // TODO elaborate?
-    // TODO handle cancelling of wiring
-    this.focusedPort = null;
-    this.wireStartX = null;
-    this.wireStartY = null;
-    this.toBePlaced = null;
-}
-
-/*
- * Sets what type of block will be placed
- */
-Workspace.prototype.setToBePlaced = function(newBlock) {
-    this.toBePlaced = newBlock;
 }
 
 /*
@@ -122,6 +127,7 @@ Workspace.prototype.draw = function() {
         this.clear();
         var l = blocks.length;
         var lw = wires.length;
+        ctx.setLineDash([]);
 
         // draw all blocks
         for (var i = 0; i < l; i++) {
@@ -158,15 +164,26 @@ Workspace.prototype.draw = function() {
             wires[i].draw(ctx);
         }
 
-        if (this.toBePlaced && !this.noGhost) {
+
+        if (this.mode==ModeEnum.PLACE && !this.noBlockGhost) {
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 1;
-            ctx.strokeRect(this.ghostX,
-                           this.ghostY,
-                           this.ghostW,
-                           this.ghostH);
+            ctx.strokeRect(this.ghostBlockX,
+                           this.ghostBlockY,
+                           this.ghostBlockW,
+                           this.ghostBlockH);
         }
-        // TODO draw connections
+
+        if (this.mode==ModeEnum.WIRE && !this.noWireGhost) {
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 3]);
+            ctx.beginPath();
+            ctx.moveTo(this.focusedPort.center()[0], this.focusedPort.center()[1]);
+            ctx.lineTo(this.ghostWireX, this.ghostWireY);
+            ctx.stroke();
+        }
+
 
         this.valid = true;
     }
@@ -188,95 +205,192 @@ Workspace.prototype.mousedownHandler = function(e) {
     else if ("button" in e)  // IE, Opera 
         isRightMB = e.button == 2; 
 
-    // If we are currently placing and left mouse was clicked we place the
-    // block and then return
-    if (this.toBePlaced && !isRightMB) {
-        var mouse = this.getMouse(e);
-        this.addBlock(mouse.x, mouse.y);
-        this.focusedBlock = this.blockList[this.blockList.length-1];
-        BE.setFocus(this.focusedBlock);
-        this.isValid = false;
-        return;
-    }
-    else {
-        var mouse = this.getMouse(e);
-        var mx = mouse.x;
-        var my = mouse.y;
-        var blocks = this.blockList;
-        var l = blocks.length;
+    if (isRightMB)
+        this.mousedownHandlerR(e);
+    else
+        this.mousedownHandlerL(e);
+}
 
-        for (var i=l-1; i>=0; i--) {
-            var block = blocks[i];
-            if (block.contains(mx, my)) {
-                var focus = block;
-                this.dragoffx = mx - focus.x;
-                this.dragoffy = my - focus.y;
-                this.isDragging = true;
-                this.isWiring = false;
-                this.focusedPort = null;
-                this.focusedBlock = focus;
-                BE.setFocus(this.focusedBlock);
-                this.isValid = false;
-                return;
-            }
-            else {
-                var lp = block.getActivePorts().length;
-                var ports = block.getActivePorts();
-                for (var j=lp-1; j>=0; j--) {
-                    var port = ports[j];
-                    if (port.contains(mx, my)) {
-                        if (this.isWiring) {
-                            this.addWire(this.focusedPort, port);
-                            return;
-                        }
-                        else {
-                            var focus = port;
-                            this.isDragging = false;
-                            this.isWiring = true;
-                            this.focusedBlock = null; // TODO setMode function to handle state? Enumeration of action?
+Workspace.prototype.mousedownHandlerR = function(e) {
+
+    switch (this.mode) {
+
+        case ModeEnum.IDLE:
+            this.setFocus(null);
+            this.isValid = false;
+            break;
+
+        case ModeEnum.PLACE:
+            BM.clearActive();
+            this.toBePlaced = null;
+            this.noBlockGhost = true;
+            this.setFocus(null);
+            this.isValid = false;
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.DRAG:
+            this.setFocus(null);
+            this.isValid = false;
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.WIRE:
+            this.setFocus(null);
+            this.noWireGhost = true;
+            this.isValid = false;
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.DELETE:
+            break;
+
+    }
+
+}
+
+Workspace.prototype.mousedownHandlerL = function(e) {
+
+    var mouse = this.getMouse(e);
+    var mx = mouse.x;
+    var my = mouse.y;
+
+    switch (this.mode) {
+
+        case ModeEnum.IDLE:
+            var miss = true;
+            for (var i=this.blockList.length-1; i>=0; i--) {
+                if (this.blockList[i].contains(mx, my)) {
+                    miss = false;
+                    this.setFocus(this.blockList[i]);
+                    this.dragoffx = mx - this.focusedBlock.x;
+                    this.dragoffy = my - this.focusedBlock.y;
+                    BE.setFocus(this.focusedBlock);
+                    this.mode = ModeEnum.DRAG;
+                    this.isValid = false;
+                }
+                else {
+                    for (var j=this.blockList[i].getActivePorts().length-1; j>=0; j--) {
+                        if (this.blockList[i].getActivePorts()[j].contains(mx, my)) {
+                            miss = false;
+                            this.setFocus(this.blockList[i].getActivePorts()[j]);
                             BE.clearFocus();
-                            this.focusedPort = port;
-                            this.wireStartX = port.x;
-                            this.wireStartY = port.y;
+                            this.mode = ModeEnum.WIRE;
                             this.isValid = false;
                         }
-                        return;
                     }
                 }
             }
-        }
+            if (miss) {
+                this.setFocus(null);
+                this.isValid = false;
+            }
+            break;
 
-        if (this.focusedBlock || this.focusedPort) {
-            this.focusedBlock = null;
-            this.focusedPort = null;
-            this.wireStartX = null;
-            this.wireStartY = null;
-            BE.clearFocus();
+        case ModeEnum.PLACE:
+            this.addBlock(mx, my, this.toBePlaced);
+            this.focusedBlock = this.blockList[this.blockList.length-1];
+            BE.setFocus(this.focusedBlock);
+            BM.clearActive();
+            this.noBlockGhost = true;
+            this.toBePlaced = null;
             this.isValid = false;
-        }
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.DRAG:
+            break;
+
+        case ModeEnum.WIRE:
+            break;
+
+        case ModeEnum.DELETE:
+            break;
+
     }
-    BM.clearActive();
-    this.clearAction();
+
 }
 
 Workspace.prototype.mousemoveHandler = function(e) {
+
     var mouse = this.getMouse(e);
-    if (this.toBePlaced) {
-        this.ghostX = mouse.x;
-        this.ghostY = mouse.y;
-        this.isValid = false;
-    }
-    else if (this.isDragging) {
-        //drag object by offset, not by left corner (x, y)
-        this.focusedBlock.x = mouse.x - this.dragoffx;
-        this.focusedBlock.y = mouse.y - this.dragoffy;
-        this.focusedBlock.updatePorts();
-        this.isValid = false;
+    var mx = mouse.x;
+    var my = mouse.y;
+
+    console.log(this.mode);
+
+    switch (this.mode) {
+
+        case ModeEnum.IDLE:
+            break;
+
+        case ModeEnum.PLACE:
+            this.ghostBlockX = mx;
+            this.ghostBlockY = my;
+            this.isValid = false;
+            break;
+
+        case ModeEnum.DRAG:
+            this.focusedBlock.x = mx - this.dragoffx;
+            this.focusedBlock.y = my - this.dragoffy;
+            this.focusedBlock.updatePorts();
+            this.isValid = false;
+            break;
+
+        case ModeEnum.WIRE:
+            this.noWireGhost = false;
+            this.ghostWireX = mx;
+            this.ghostWireY = my;
+            this.isValid = false;
+            break;
+
+        case ModeEnum.DELETE:
+            break;
+
     }
 }
 
 Workspace.prototype.mouseupHandler = function(e) {
-    this.isDragging = false;
+    var mouse = this.getMouse(e);
+    var mx = mouse.x;
+    var my = mouse.y;
+
+    switch (this.mode) {
+
+        case ModeEnum.IDLE:
+            break;
+
+        case ModeEnum.PLACE:
+            break;
+
+        case ModeEnum.DRAG:
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.WIRE:
+            var endPort = null;
+            for (var i=this.blockList.length-1; i>=0; i--) {
+                for (var j=this.blockList[i].getActivePorts().length-1; j>=0; j--) {
+                    if (this.blockList[i].getActivePorts()[j].contains(mx, my)) {
+                        endPort = this.blockList[i].getActivePorts()[j];
+                        this.addWire(this.focusedPort, endPort);
+                        break;
+                    }
+                }
+                if (endPort != null) {
+                    break;
+                }
+            }
+            this.noWireGhost = true;
+            this.setFocus(null);
+            this.isValid = false;
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.DELETE:
+            break;
+
+    }
 }
 
 Workspace.prototype.dblclickHandler = function(e) {
@@ -285,18 +399,68 @@ Workspace.prototype.dblclickHandler = function(e) {
 }
 
 Workspace.prototype.mouseleaveHandler = function(e) {
-    this.noGhost = true;
+    switch (this.mode) {
+
+        case ModeEnum.IDLE:
+            break;
+
+        case ModeEnum.PLACE:
+            this.noBlockGhost = true;
+            this.isValid = false;
+            break;
+
+        case ModeEnum.DRAG:
+            this.setFocus(null);
+            this.isValid = false;
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.WIRE:
+            this.setFocus(null);
+            this.noWireGhost = true;
+            this.isValid = false;
+            this.mode = ModeEnum.IDLE;
+            break;
+
+        case ModeEnum.DELETE:
+            break;
+
+    }
 }
 
 Workspace.prototype.mouseenterHandler = function(e) {
-    this.noGhost = false;
+
+    switch (this.mode) {
+
+        case ModeEnum.IDLE:
+            if (this.toBePlaced != null) {
+                this.noBlockGhost = false;
+                this.isValid = false;
+                this.mode = ModeEnum.PLACE;
+            }
+            break;
+
+        case ModeEnum.PLACE:
+            this.noBlockGhost = false;
+            this.isValid = false;
+            break;
+
+        case ModeEnum.DRAG:
+            break;
+
+        case ModeEnum.WIRE:
+            break;
+
+        case ModeEnum.DELETE:
+            break;
+
+    }
 }
 
 Workspace.prototype.contextmenuHandler = function(e) {
     e.preventDefault();
     return false;
 }
-
 
 // TODO study this function closer
 // Creates an object with x and y defined,

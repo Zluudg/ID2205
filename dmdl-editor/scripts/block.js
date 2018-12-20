@@ -25,6 +25,7 @@ Block.prototype.draw = function(ctx) {
 
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = 1;
+    ctx.setLineDash([]);
     ctx.strokeRect(this.x, this.y, this.w, this.h);
 
     ctx.fillStyle = '#000000';
