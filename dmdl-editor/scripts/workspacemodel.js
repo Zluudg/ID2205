@@ -109,6 +109,7 @@ Workspace.prototype.addBlock = function(x, y, b) {
 Workspace.prototype.addWire = function(startPort, endPort) {
     var wire = new Wire(startPort, endPort);
     this.wireList.push(wire);
+    Net.addWireToNet(wire);
 }
 
 /*
