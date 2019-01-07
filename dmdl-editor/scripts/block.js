@@ -1,7 +1,5 @@
 // Constructor for block object
 function Block(x, y, portList, blockName) {
-    Block.blockCount++;
-
     this.DEFAULT_FILL = '#FFDDFF'; // TODO move these to constants
     this.DEFAULT_WIDTH = 78;
     this.DEFAULT_HEIGHT = 48;
@@ -20,6 +18,7 @@ function Block(x, y, portList, blockName) {
 
     this.blockName = blockName || 'Generic';
     this.uniqueID = this.blockName.replace(" ", "_") + '_' + Block.blockCount;
+    Block.blockCount++;
 }
 
 Block.blockCount = 0;
