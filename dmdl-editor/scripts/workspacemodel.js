@@ -141,7 +141,7 @@ Workspace.prototype.draw = function() {
         }
     
         // draw focused block
-        if (this.focusedBlock != null) {
+        if (this.focusedBlock !== null) {
             ctx.strokeStyle = this.blockSelectionColor;
             ctx.lineWidth = this.blockSelectionWidth;
             var focus = this.focusedBlock;
@@ -150,7 +150,7 @@ Workspace.prototype.draw = function() {
         }
 
         // draw focus port
-        if (this.focusedPort != null) {
+        if (this.focusedPort !== null) {
             ctx.strokeStyle = this.portSelectionColor;
             ctx.lineWidth = this.portSelectionWidth;
             var focus = this.focusedPort;
@@ -167,7 +167,7 @@ Workspace.prototype.draw = function() {
         }
 
 
-        if (this.mode==ModeEnum.PLACE && !this.noBlockGhost) {
+        if (this.mode === ModeEnum.PLACE && !this.noBlockGhost) {
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 1;
             ctx.strokeRect(this.ghostBlockX,
@@ -176,7 +176,7 @@ Workspace.prototype.draw = function() {
                            this.ghostBlockH);
         }
 
-        if (this.mode==ModeEnum.WIRE && !this.noWireGhost) {
+        if (this.mode === ModeEnum.WIRE && !this.noWireGhost) {
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 1;
             ctx.setLineDash([5, 3]);
@@ -203,9 +203,9 @@ Workspace.prototype.mousedownHandler = function(e) {
     e = e || window.event;
 
     if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-        isRightMB = e.which == 3; 
+        isRightMB = e.which === 3;
     else if ("button" in e)  // IE, Opera 
-        isRightMB = e.button == 2; 
+        isRightMB = e.button === 2;
 
     if (isRightMB)
         this.mousedownHandlerR(e);
@@ -378,7 +378,7 @@ Workspace.prototype.mouseupHandler = function(e) {
                         break;
                     }
                 }
-                if (endPort != null) {
+                if (endPort !== null) {
                     break;
                 }
             }
@@ -434,7 +434,7 @@ Workspace.prototype.mouseenterHandler = function(e) {
     switch (this.mode) {
 
         case ModeEnum.IDLE:
-            if (this.toBePlaced != null) {
+            if (this.toBePlaced !== null) {
                 this.noBlockGhost = false;
                 this.isValid = false;
                 this.mode = ModeEnum.PLACE;
@@ -463,11 +463,6 @@ Workspace.prototype.contextmenuHandler = function(e) {
     return false;
 }
 
-// TODO study this function closer
-// Creates an object with x and y defined,
-// set to the mouse position relative to the state's canvas
-// If you wanna be super-correct this can be tricky,
-// we have to worry about padding and borders
 Workspace.prototype.getMouse = function(e) {
     var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
 

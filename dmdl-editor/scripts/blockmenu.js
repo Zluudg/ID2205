@@ -5,7 +5,7 @@ function BlockMenu(menu) {
     var state = this;
     for (var i = 0; i < state.elements.length; i++) {
          // Don't add event listener to the head of the menu
-        if (state.elements[i].className == 'menuHead')
+        if (state.elements[i].className === 'menuHead')
             continue;
 
         state.elements[i].addEventListener('click',
@@ -21,7 +21,7 @@ function BlockMenu(menu) {
 
 BlockMenu.prototype.clearActive = function() {
     for (var i=0; i<this.elements.length; i++) {
-        if (this.elements[i].className == 'menuHead')
+        if (this.elements[i].className === 'menuHead')
             continue;
         this.elements[i].className = '';
     }

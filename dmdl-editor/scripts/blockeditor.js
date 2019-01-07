@@ -6,7 +6,7 @@ function BlockEditor(editor) {
 BlockEditor.prototype.setFocus = function(focus) {
     this.editor.innerHTML = '';
     this.currentBlock = focus;
-    if (focus == null)
+    if (focus === null)
         return;
     var l = this.currentBlock.portList.length;
     for (var i=0; i<l; i++) {
@@ -42,7 +42,6 @@ BlockEditor.prototype.setFocus = function(focus) {
 }
 
 BlockEditor.prototype.clearFocus = function() {
-    // TODO elaborate?
     this.setFocus(null);
     this.editor.innerHTML = "";
 }

@@ -21,14 +21,14 @@ Port.prototype.center = function() {
 }
 
 Port.prototype.draw = function(ctx) {
-    if (this.state == 'disabled')
+    if (this.state === 'disabled')
         return;
 
-    if (this.mode == 'in') {
+    if (this.mode === 'in') {
         ctx.fillStyle = this.DEFAULT_INPORT_FILL;    
         ctx.fillRect(this.x, this.y, this.DEFAULT_PORT_SIZE, this.DEFAULT_PORT_SIZE);
     }
-    else if (this.mode == 'out') {
+    else if (this.mode === 'out') {
         ctx.fillStyle = this.DEFAULT_OUTPORT_FILL;
         ctx.fillRect(this.x, this.y, this.DEFAULT_PORT_SIZE, this.DEFAULT_PORT_SIZE);
     }

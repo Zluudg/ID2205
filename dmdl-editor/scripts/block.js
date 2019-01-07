@@ -61,12 +61,12 @@ Block.prototype.updatePorts = function() {
 
         var port = this.portList[i];
 
-        if (port.state == 'disabled')
+        if (port.state === 'disabled')
             continue;
 
-        if (port.mode == 'in')
+        if (port.mode === 'in')
             il++;
-        else if (port.mode == 'out')
+        else if (port.mode === 'out')
             ol++;
     }
 
@@ -81,16 +81,16 @@ Block.prototype.updatePorts = function() {
 
         var port = this.portList[i];
 
-        if (port.state == 'disabled')
+        if (port.state === 'disabled')
             continue;
 
-        if (port.mode == 'in') {
+        if (port.mode === 'in') {
             port.x = this.x - port.DEFAULT_PORT_SIZE;
             port.y = this.y + (inCount+1)*this.h/(il+1) - port.DEFAULT_PORT_SIZE/2;
             this.inPortList.push(port);
             inCount++;
         }
-        else if (port.mode == 'out') {
+        else if (port.mode === 'out') {
             port.x = this.x + this.w;
             port.y = this.y + (outCount+1)*this.h/(ol+1) - port.DEFAULT_PORT_SIZE/2;
             this.outPortList.push(port);
@@ -103,7 +103,7 @@ Block.prototype.getPort = function(p) {
     var l = this.portList.length;
     for (var i=0; i<l; i++) {
         var port = this.portList[i];
-        if (port.type==p)
+        if (port.type === p)
             return port;
     }
 }

@@ -39,19 +39,19 @@ Net.addWireToNet = function(wire) {
 }
 
 Net.isSameNet = function(w1, w2) {
-    if (w1.startPort == w2.startPort) {
+    if (w1.startPort === w2.startPort) {
         return true;
     }
 
-    if (w1.endPort == w2.startPort) {
+    if (w1.endPort === w2.startPort) {
         return true;
     }
 
-    if (w1.startPort == w2.endPort) {
+    if (w1.startPort === w2.endPort) {
         return true;
     }
 
-    if (w1.endPort == w2.endPort) {
+    if (w1.endPort === w2.endPort) {
         return true;
     }
 
