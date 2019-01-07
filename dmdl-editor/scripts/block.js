@@ -1,5 +1,7 @@
 // Constructor for block object
 function Block(x, y, portList, blockName) {
+    Block.blockCount++;
+
     this.DEFAULT_FILL = '#FFDDFF'; // TODO move these to constants
     this.DEFAULT_WIDTH = 78;
     this.DEFAULT_HEIGHT = 48;
@@ -16,8 +18,11 @@ function Block(x, y, portList, blockName) {
     this.maxPortCount = 0;
     this.updatePorts();
 
-    this.blockName = blockName || '_Generic_';
+    this.blockName = blockName || 'Generic';
+    this.uniqueID = this.blockName.replace(" ", "_") + '_' + Block.blockCount;
 }
+
+Block.blockCount = 0;
 
 Block.prototype.draw = function(ctx) {
     ctx.fillStyle = this.fill;

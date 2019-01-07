@@ -257,6 +257,7 @@ Workspace.prototype.mousedownHandlerL = function(e) {
     var mx = mouse.x;
     var my = mouse.y;
 
+
     switch (this.mode) {
 
         case ModeEnum.IDLE:
@@ -318,8 +319,6 @@ Workspace.prototype.mousemoveHandler = function(e) {
     var mouse = this.getMouse(e);
     var mx = mouse.x;
     var my = mouse.y;
-
-    console.log(this.mode);
 
     switch (this.mode) {
 
