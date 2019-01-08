@@ -26,6 +26,16 @@ function BlockMenu(menu) {
                 filename = "Untitled";
             Net.exportXML(filename);
         });
+
+    var syntaxCheckBtn = document.getElementById("syntaxCheckBtn");
+    syntaxCheckBtn.addEventListener('click',
+        function(e) {
+            var msg = SyntaxChecker.checkSyntax();
+            if (msg !== '')
+                alert(msg);
+            else
+                alert('Protocol ok!');
+        });
 }
 
 BlockMenu.prototype.clearActive = function() {
