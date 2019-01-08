@@ -5,10 +5,10 @@ SyntaxChecker.checkSyntax = function() {
     var msg = '';
 
     if (SyntaxChecker.checkLooseWires())
-        msg += 'Loose wires found!' + '\n';
+        msg += '## Syntax Error ## Loose wires found!' + '\n';
 
     if (SyntaxChecker.checkOpenPorts())
-        msg += 'Open mandatory ports found!' + '\n';
+        msg += '## Syntax Error ## Open mandatory ports found!' + '\n';
 
     return msg;
 }

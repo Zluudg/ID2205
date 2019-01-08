@@ -104,7 +104,7 @@ Net.mergeNets = function(i, j) {
     }
 
     else { // i == j, should never happen
-        alert("Netlist error");
+        alert('Netlist error, if you see this error please contact the site admin!');
     }
 
     Net.netList[index1].wireList = Net.netList[index1].wireList.concat(Net.netList[index2].wireList);
@@ -112,6 +112,14 @@ Net.mergeNets = function(i, j) {
 }
 
 Net.exportXML = function(filename) {
+    var msg = SyntaxChecker.checkSyntax();
+    if (msg !== '') {
+        var denial = 'Design contains errors, no export will be done.' + '\n';
+        denial += 'See list of errors below.' + '\n\n\n';
+        TextIO.output(denial + msg);
+        return;
+    }
+
     var blockList = [];
 
     for (var i=0; i<Net.netList.length; i++) {

@@ -32,9 +32,9 @@ function BlockMenu(menu) {
         function(e) {
             var msg = SyntaxChecker.checkSyntax();
             if (msg !== '')
-                alert(msg);
+                TextIO.output(msg);
             else
-                alert('Protocol ok!');
+                TextIO.output('Protocol ok!');
         });
 }
 
