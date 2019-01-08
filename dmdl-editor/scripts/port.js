@@ -3,6 +3,7 @@ function Port(mode, type, state) {
     this.mode = mode || 'in'; // in/out
     this.type = type || 'Generic'; // A/B/C/D/E/F/G etc.
     this.state = state || 'disabled'; //enabled/disabled/mandatory/unavailable
+    this.parentBlock = null;
     this.DEFAULT_PORT_SIZE = 8;
     this.DEFAULT_INPORT_FILL = '#0000FF';
     this.DEFAULT_OUTPORT_FILL = '#FF8800'; 

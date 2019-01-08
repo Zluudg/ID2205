@@ -111,6 +111,10 @@ Net.mergeNets = function(i, j) {
     Net.netList.splice(index2, 1);
 }
 
-Net.exportXML = function() {
+Net.syntaxCheck = function() {
 
+}
+
+Net.exportXML = function() {
+    
 }

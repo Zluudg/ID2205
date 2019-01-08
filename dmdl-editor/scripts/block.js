@@ -14,6 +14,8 @@ function Block(x, y, portList, blockName) {
     this.inPortList = [];
     this.outPortList = [];
     this.maxPortCount = 0;
+    for (var i=0; i<this.portList.length; i++)
+        this.portList[i].parentBlock = this;
     this.updatePorts();
 
     this.blockName = blockName || 'Generic';
@@ -49,6 +51,7 @@ Block.prototype.contains = function(mx, my) {
 Block.prototype.getActivePorts = function() {
     return this.outPortList.concat(this.inPortList);
 }
+
 Block.prototype.updatePorts = function() {
     this.inPortList = [];
     this.outPortList = [];
