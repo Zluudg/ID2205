@@ -8,6 +8,9 @@ BlockEditor.prototype.setFocus = function(focus) {
     this.currentBlock = focus;
     if (focus === null)
         return;
+    var header = document.createElement('h2');
+    header.innerHTML = focus.uniqueID;
+    this.editor.appendChild(header);
     var l = this.currentBlock.portList.length;
     for (var i=0; i<l; i++) {
         var port = this.currentBlock.portList[i];
