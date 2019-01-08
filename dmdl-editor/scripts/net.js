@@ -111,10 +111,30 @@ Net.mergeNets = function(i, j) {
     Net.netList.splice(index2, 1);
 }
 
-Net.syntaxCheck = function() {
-
-}
-
 Net.exportXML = function() {
-    
+    var blockList = [];
+
+    for (var i=0; i<Net.netList.length; i++) {
+        for (var j=0; j<Net.netList[i].wireList.length; j++) {
+            var uid = Net.netList[i].wireList[j].startPort.parentBlock.uniqueID;
+            var csvEntry = Net.netList[i].wireList[j].startPort.type + ',';
+            csvEntry += Net.netList[i].wireList[j].startPort.mode + ',';
+            csvEntry += Net.netList[i].uniqueID + ';';
+            if (blockList[uid] === undefined)
+                blockList[uid] = csvEntry;
+            else if (blockList[uid].indexOf(csvEntry) === -1)
+                blockList[uid] += csvEntry;
+
+            uid = Net.netList[i].wireList[j].endPort.parentBlock.uniqueID;
+            csvEntry = Net.netList[i].wireList[j].endPort.type + ',';
+            csvEntry += Net.netList[i].wireList[j].endPort.mode + ',';
+            csvEntry += Net.netList[i].uniqueID + ';';
+            if (blockList[uid] === undefined)
+                blockList[uid] = csvEntry;
+            else if (blockList[uid].indexOf(csvEntry) === -1)
+                blockList[uid] += csvEntry;
+
+        }
+    }
+    console.log(blockList);
 }
