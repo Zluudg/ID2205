@@ -111,7 +111,7 @@ Net.mergeNets = function(i, j) {
     Net.netList.splice(index2, 1);
 }
 
-Net.exportXML = function() {
+Net.exportXML = function(filename) {
     var blockList = [];
 
     for (var i=0; i<Net.netList.length; i++) {
@@ -136,5 +136,26 @@ Net.exportXML = function() {
 
         }
     }
-    console.log(blockList);
+
+    Net.writeToXMLFile(blockList, filename);
+}
+
+Net.writeToXMLFile = function(blockList, filename) {
+    var xmlString = "";
+    for (var uid in blockList) {
+        xmlString += "<block>" + "\n";
+        xmlString += "\t" + "<blockUID>" + uid + "</blockUID>" + "\n";
+        var portList = blockList[uid].split(";");
+        for (var i=0; i<portList.length-1; i++) {
+            var portData = portList[i].split(",");
+            xmlString += "\t" + "<port>" + "\n";
+            xmlString += "\t\t" + "<porttype>" + portData[0] + "</porttype>" + "\n";
+            xmlString += "\t\t" + "<portmode>" + portData[1] + "</portmode>" + "\n";
+            xmlString += "\t\t" + "<net>" + "\n";
+            xmlString += "\t\t\t" + "<netUID>" + portData[2] + "</netUID>" + "\n";
+            xmlString += "\t\t" + "</net>" + "\n";
+            xmlString += "\t" + "</port>" + "\n";
+        }
+        xmlString += "</block>" + "\n";
+    }
 }
