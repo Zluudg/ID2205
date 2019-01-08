@@ -124,37 +124,43 @@ Net.exportXML = function(filename) {
 
     for (var i=0; i<Net.netList.length; i++) {
         for (var j=0; j<Net.netList[i].wireList.length; j++) {
+            var name = Net.netList[i].wireList[j].startPort.parentBlock.blockName;
             var uid = Net.netList[i].wireList[j].startPort.parentBlock.uniqueID;
+            var block = name + ':' + uid;
             var csvEntry = Net.netList[i].wireList[j].startPort.type + ',';
             csvEntry += Net.netList[i].wireList[j].startPort.mode + ',';
             csvEntry += Net.netList[i].uniqueID + ';';
-            if (blockList[uid] === undefined)
-                blockList[uid] = csvEntry;
-            else if (blockList[uid].indexOf(csvEntry) === -1)
-                blockList[uid] += csvEntry;
+            if (blockList[block] === undefined)
+                blockList[block] = csvEntry;
+            else if (blockList[block].indexOf(csvEntry) === -1)
+                blockList[block] += csvEntry;
 
+            name = Net.netList[i].wireList[j].endPort.parentBlock.blockName;
             uid = Net.netList[i].wireList[j].endPort.parentBlock.uniqueID;
+            block = name + ':' + uid;
             csvEntry = Net.netList[i].wireList[j].endPort.type + ',';
             csvEntry += Net.netList[i].wireList[j].endPort.mode + ',';
             csvEntry += Net.netList[i].uniqueID + ';';
-            if (blockList[uid] === undefined)
-                blockList[uid] = csvEntry;
-            else if (blockList[uid].indexOf(csvEntry) === -1)
-                blockList[uid] += csvEntry;
+            if (blockList[block] === undefined)
+                blockList[block] = csvEntry;
+            else if (blockList[block].indexOf(csvEntry) === -1)
+                blockList[block] += csvEntry;
 
         }
     }
-
     Net.writeToXMLFile(blockList, filename);
 }
 
 Net.writeToXMLFile = function(blockList, filename) {
     var xmlString = '<?xml version="1.0" encoding="UTF-8"?>' + '\n';
     xmlString += '<MACprotocol>' + '\n';
-    for (var uid in blockList) {
+    for (var block in blockList) {
+        console.log(block);
+        var blockData = block.split(':');
         xmlString += '\t' + '<block>' + '\n';
-        xmlString += '\t\t' + '<blockUID>' + uid + '</blockUID>' + '\n';
-        var portList = blockList[uid].split(';');
+        xmlString += '\t\t' + '<blocktype>' + blockData[0] + '</blocktype>' + '\n';
+        xmlString += '\t\t' + '<blockUID>' + blockData[1] + '</blockUID>' + '\n';
+        var portList = blockList[block].split(';');
         for (var i=0; i<portList.length-1; i++) {
             var portData = portList[i].split(',');
             xmlString += '\t\t' + '<port>' + '\n';
