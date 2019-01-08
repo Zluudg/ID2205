@@ -10,16 +10,21 @@
   <body>
     <h1 id="headline">Welcome to the DMDL editor</h1>
 
-    <div id="blockMenu">
-      <a href="#" class="menuHead">Blocks</a>
-      <a href="#">Start</a>
-      <a href="#">Sending</a>
-      <a href="#">Timer</a>
-      <a href="#">Framing</a>
-      <a href="#">Dummy Source</a>
-      <a href="#">Buffer</a>
+    <div id=blockMenu>
+        <div id="blockMenuList">
+          <a href="#" class="menuHead">Blocks</a>
+          <a href="#">Start</a>
+          <a href="#">Sending</a>
+          <a href="#">Timer</a>
+          <a href="#">Framing</a>
+          <a href="#">Dummy Source</a>
+          <a href="#">Buffer</a>
+        </div>
+        <div id="blockMenuButtons">
+          <button id="syntaxCheckBtn">Syntax Check</button>
+          <button id="exportBtn">Export</button>
+        </div>        
     </div>
-
     <canvas id="workspace" width="800" height="450"></canvas>
 
     <div id="blockEditor"></div>

@@ -6,7 +6,7 @@
     padding-right: 20px;
 }
 
-#blockMenu a {
+#blockMenuList a {
     background-color: #dddd;
     color: black;
     display: block;
@@ -14,16 +14,39 @@
     text-decoration: none;
 }
 
-#blockMenu a:hover {
+#blockMenuList a:hover {
     background-color: #aaf;
 }
 
-#blockMenu a.menuHead {
+#blockMenuList a.menuHead {
     background-color: #0000FE;
     color: white;
 }
 
-#blockMenu a.active {
+#blockMenuList a.active {
     background-color: #00A0FE;
     color: black;
+}
+
+#blockMenuButtons {
+    padding: 10px 0px;
+}
+
+#blockMenuButtons button {
+    background-color: #4CAF50;
+    border: 1px solid green;
+    color: white;
+    padding: 10px 24px;
+    cursor: pointer; /* Pointer/hand icon */
+    width: 200px;
+    display: block;
+}
+
+#blockMenuButtons button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+#blockMenuButtons button:hover {
+  background-color: #3e8e41;
 }

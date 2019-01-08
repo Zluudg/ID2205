@@ -17,6 +17,12 @@ function BlockMenu(menu) {
                 WS.toBePlaced = this.innerHTML;
             });
     }
+
+    var exportBtn = document.getElementById("exportBtn");
+    exportBtn.addEventListener('click',
+        function(e) {
+            Net.exportXML();
+        });
 }
 
 BlockMenu.prototype.clearActive = function() {
