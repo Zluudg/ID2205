@@ -141,21 +141,36 @@ Net.exportXML = function(filename) {
 }
 
 Net.writeToXMLFile = function(blockList, filename) {
-    var xmlString = "";
+    var xmlString = '<?xml version="1.0" encoding="UTF-8"?>' + '\n';
+    xmlString += '<MACprotocol>' + '\n';
     for (var uid in blockList) {
-        xmlString += "<block>" + "\n";
-        xmlString += "\t" + "<blockUID>" + uid + "</blockUID>" + "\n";
-        var portList = blockList[uid].split(";");
+        xmlString += '\t' + '<block>' + '\n';
+        xmlString += '\t\t' + '<blockUID>' + uid + '</blockUID>' + '\n';
+        var portList = blockList[uid].split(';');
         for (var i=0; i<portList.length-1; i++) {
-            var portData = portList[i].split(",");
-            xmlString += "\t" + "<port>" + "\n";
-            xmlString += "\t\t" + "<porttype>" + portData[0] + "</porttype>" + "\n";
-            xmlString += "\t\t" + "<portmode>" + portData[1] + "</portmode>" + "\n";
-            xmlString += "\t\t" + "<net>" + "\n";
-            xmlString += "\t\t\t" + "<netUID>" + portData[2] + "</netUID>" + "\n";
-            xmlString += "\t\t" + "</net>" + "\n";
-            xmlString += "\t" + "</port>" + "\n";
+            var portData = portList[i].split(',');
+            xmlString += '\t\t' + '<port>' + '\n';
+            xmlString += '\t\t\t' + '<porttype>' + portData[0] + '</porttype>' + '\n';
+            xmlString += '\t\t\t' + '<portmode>' + portData[1] + '</portmode>' + '\n';
+            xmlString += '\t\t\t' + '<net>' + '\n';
+            xmlString += '\t\t\t\t' + '<netUID>' + portData[2] + '</netUID>' + '\n';
+            xmlString += '\t\t\t' + '</net>' + '\n';
+            xmlString += '\t\t' + '</port>' + '\n';
         }
-        xmlString += "</block>" + "\n";
+        xmlString += '\t' + '</block>' + '\n';
     }
+    xmlString += '</MACprotocol>'
+
+    if (filename.indexOf('.xml') === -1)
+        filename += '.xml';
+    var tmp = document.createElement('a');
+    tmp.setAttribute('href', 'data:text/xml;charset=utf-8,' + encodeURIComponent(xmlString));
+    tmp.setAttribute('download', filename);
+
+    tmp.style.display = 'none';
+    document.body.appendChild(tmp);
+
+    tmp.click();
+
+    document.body.removeChild(tmp);
 }
