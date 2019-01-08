@@ -16,6 +16,15 @@ SyntaxChecker.checkSyntax = function() {
 SyntaxChecker.checkLooseWires = function() {
     var syntaxError = false;
 
+    for (var i=0; i<WS.wireList.length; i++) {
+        if (WS.wireList[i].startPort.state === "disabled")
+            syntaxError = true;
+
+        if (WS.wireList[i].endPort.state === "disabled")
+            syntaxError = true;
+
+    }
+
     return syntaxError;
 }
 
