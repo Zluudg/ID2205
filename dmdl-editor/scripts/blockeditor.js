@@ -114,6 +114,40 @@ BlockEditor.prototype.addRadio = function(label, params) {
 }
 
 BlockEditor.prototype.addSlider = function(label, params) {
+
+    var newDiv = document.createElement('div');
+    var newSlider = document.createElement('input');
+    var newIndicator = document.createElement('p');
+
+    var values = params.split(':');
+    var currentValue = params.split(';')[1];
+    var minmax = params.split(';')[0].split(',');
+
+    newSlider.type = 'range';
+    newSlider.id = label + ' [slider]'; 
+    newSlider.name = newSlider.id;
+    newSlider.min = minmax[0];
+    newSlider.max = minmax[1];
+    newSlider.defaultValue = currentValue;
+    newIndicator.innerHTML = label + ': ' + currentValue;
+    newIndicator.id = label + ' [indicator]';
+
+    var stateBE = this; //closure
+    var cfgLabel = label;
+
+    newSlider.addEventListener(
+        'input',
+        function() {
+            var indicator = document.getElementById(cfgLabel + ' [indicator]');
+            indicator.innerHTML = cfgLabel + ': ' + this.value;
+            var cfg = stateBE.currentBlock.configInfo[cfgLabel].split(';');
+            cfg[1] = this.value;
+            cfg = cfg.join(';');
+            stateBE.currentBlock.configInfo[cfgLabel] = cfg;
+        });
+    newDiv.appendChild(newSlider);
+    newDiv.appendChild(newIndicator);
+    this.editor.appendChild(newDiv);
 }
 
 BlockEditor.prototype.addEntry = function(label, params) {
