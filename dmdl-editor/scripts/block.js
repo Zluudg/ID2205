@@ -127,7 +127,6 @@ function BlockBuffer(x, y) {
                 new PortN('disabled'),
                ],
                'Buffer');
-
     this.configList = ['Size', 'Auto dequeue', 'Dequeue if full', 'Keep dequeue input'];
     this.configInfo = {};
     this.configInfo[this.configList[0]] = 'slider:0,100;10';
@@ -146,6 +145,10 @@ function BlockDummySource(x, y) {
                 new PortS('disabled')
                ],
                'Dummy Source');
+    this.configList = ['Mode', 'Length'];
+    this.configInfo = {};
+    this.configInfo[this.configList[0]] = 'radio:infinite,constant,oneshot;oneshot';
+    this.configInfo[this.configList[1]] = 'slider:0,1024;256';
 }
 inherit(BlockDummySource, Block);
 
@@ -164,6 +167,10 @@ function BlockFraming(x, y) {
                 new PortBACK('out', 'disabled'),
                ],
                'Framing');
+    this.configList = ['Src Address', 'Dest Address'];
+    this.configInfo = {};
+    this.configInfo[this.configList[0]] = 'entry:;000000000000';
+    this.configInfo[this.configList[1]] = 'entry:;FFFFFFFFFFFF';
 }
 inherit(BlockFraming, Block);
 
@@ -183,6 +190,10 @@ function BlockSending(x, y) {
                 new PortBACK('out', 'disabled'),
                ],
                'Sending');
+    this.configList = ['Frequency (MHz)', 'Gain (dBm)'];
+    this.configInfo = {};
+    this.configInfo[this.configList[0]] = 'slider:0,3000;2400';
+    this.configInfo[this.configList[1]] = 'slider:0,20;10';
 }
 inherit(BlockSending, Block);
 
@@ -193,6 +204,10 @@ function BlockStart(x, y) {
                 new PortE('mandatory')
                ],
                'Start');
+    this.configList = ['Trigger multiple', 'Time granularity'];
+    this.configInfo = {};
+    this.configInfo[this.configList[0]] = 'slider:0,10;1';
+    this.configInfo[this.configList[1]] = 'slider:0,100;10';
 }
 inherit(BlockStart, Block);
 

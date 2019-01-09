@@ -145,8 +145,8 @@ BlockEditor.prototype.addSlider = function(label, params) {
             cfg = cfg.join(';');
             stateBE.currentBlock.configInfo[cfgLabel] = cfg;
         });
-    newDiv.appendChild(newSlider);
     newDiv.appendChild(newIndicator);
+    newDiv.appendChild(newSlider);
     this.editor.appendChild(newDiv);
 }
 
