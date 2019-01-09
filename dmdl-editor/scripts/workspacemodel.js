@@ -77,22 +77,30 @@ function Workspace(canvas) {
 }
 
 Workspace.prototype.setFocus = function(f) {
+
     if (f instanceof Block) {
         this.focusedPort = null;
         this.focusedBlock = f;
+        BE.setFocus(f);
     }
     else if (f instanceof Port) {
         this.focusedPort = f;
         this.focusedBlock = null;
+        BE.setFocus(null);
     }
-    else if (f = null) {
+    else if (f === null) {
         this.focusedPort = null;
         this.focusedBlock = null;
+        BE.setFocus(null);
     }
     else {
         this.focusedPort = null;
         this.focusedBlock = null;
+        BE.setFocus(null);
+        console.log('Workspace.prototype.setFocus is acting weird. PLease contact an admin.');
     }
+
+    BM.clearActive();
 }
 
 /*
@@ -224,7 +232,6 @@ Workspace.prototype.mousedownHandlerR = function(e) {
             break;
 
         case ModeEnum.PLACE:
-            BM.clearActive();
             this.toBePlaced = null;
             this.noBlockGhost = true;
             this.setFocus(null);
@@ -269,7 +276,6 @@ Workspace.prototype.mousedownHandlerL = function(e) {
                     this.setFocus(this.blockList[i]);
                     this.dragoffx = mx - this.focusedBlock.x;
                     this.dragoffy = my - this.focusedBlock.y;
-                    BE.setFocus(this.focusedBlock);
                     this.mode = ModeEnum.DRAG;
                     this.isValid = false;
                 }
@@ -278,7 +284,6 @@ Workspace.prototype.mousedownHandlerL = function(e) {
                         if (this.blockList[i].getActivePorts()[j].contains(mx, my)) {
                             miss = false;
                             this.setFocus(this.blockList[i].getActivePorts()[j]);
-                            BE.clearFocus();
                             this.mode = ModeEnum.WIRE;
                             this.isValid = false;
                         }
@@ -293,9 +298,7 @@ Workspace.prototype.mousedownHandlerL = function(e) {
 
         case ModeEnum.PLACE:
             this.addBlock(mx, my, this.toBePlaced);
-            this.focusedBlock = this.blockList[this.blockList.length-1];
-            BE.setFocus(this.focusedBlock);
-            BM.clearActive();
+            this.setFocus(this.blockList[this.blockList.length-1]);
             this.noBlockGhost = true;
             this.toBePlaced = null;
             this.isValid = false;

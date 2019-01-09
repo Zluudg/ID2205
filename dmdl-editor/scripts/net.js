@@ -120,7 +120,7 @@ Net.exportXML = function(filename) {
         return;
     }
 
-    var blockList = [];
+    var blockList = {};
 
     for (var i=0; i<Net.netList.length; i++) {
         for (var j=0; j<Net.netList[i].wireList.length; j++) {

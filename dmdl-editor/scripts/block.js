@@ -127,6 +127,13 @@ function BlockBuffer(x, y) {
                 new PortN('disabled'),
                ],
                'Buffer');
+
+    this.configList = ['Size', 'Auto dequeue', 'Dequeue if full', 'Keep dequeue input'];
+    this.configInfo = {};
+    this.configInfo[this.configList[0]] = 'slider:0,100;10';
+    this.configInfo[this.configList[1]] = 'check:;false';
+    this.configInfo[this.configList[2]] = 'check:;false';
+    this.configInfo[this.configList[3]] = 'check:;false';
 }
 inherit(BlockBuffer, Block);
 
@@ -200,6 +207,11 @@ function BlockTimer(x, y) {
                 new PortE('mandatory')
                ],
                'Timer');
+    this.configList = ['Mode', 'Distribution', 'Mean duration (ms)'];
+    this.configInfo = {};
+    this.configInfo[this.configList[0]] = 'radio:oneshot,periodic;oneshot';
+    this.configInfo[this.configList[1]] = 'radio:constant,exponential,uniform;constant';
+    this.configInfo[this.configList[2]] = 'slider:0,3000;500';
 }
 inherit(BlockTimer, Block);
 
