@@ -111,13 +111,50 @@ BlockEditor.prototype.addCheck = function(label, params) {
 }
 
 BlockEditor.prototype.addRadio = function(label, params) {
+    var mainDiv = document.createElement('div');
+    var mainLabel = document.createElement('h3');
+    mainLabel.innerHTML = label + ':';
+
+    var options = params.split(';')[0].split(',');
+    var currentValue = params.split(';')[1];
+
+    for (var i=0; i<options.length; i++) {
+        var newDiv = document.createElement('div');
+        var newRadioBtn = document.createElement('input');
+        var newLabel = document.createElement('label');
+
+        newRadioBtn.type = 'radio';
+        newRadioBtn.id = options[i]; 
+        newRadioBtn.value = options[i]; 
+        if (options[i] === currentValue)
+            newRadioBtn.checked = true;
+        newRadioBtn.name = label;
+        newLabel.htmlFor = newRadioBtn.id;
+        newLabel.innerHTML = newRadioBtn.id;
+        var stateBE = this; //closure
+        var cfgLabel = label;
+        newRadioBtn.addEventListener(
+            'click',
+            function() {
+                var cfg = stateBE.currentBlock.configInfo[cfgLabel].split(';');
+                cfg[1] = this.value;
+                cfg = cfg.join(';');
+                stateBE.currentBlock.configInfo[cfgLabel] = cfg;
+            });
+
+        newDiv.appendChild(newRadioBtn);
+        newDiv.appendChild(newLabel);
+        mainDiv.appendChild(newDiv);
+    }
+    this.editor.appendChild(mainLabel);
+    this.editor.appendChild(mainDiv);
 }
 
 BlockEditor.prototype.addSlider = function(label, params) {
 
     var newDiv = document.createElement('div');
     var newSlider = document.createElement('input');
-    var newIndicator = document.createElement('p');
+    var newIndicator = document.createElement('h3');
 
     var values = params.split(':');
     var currentValue = params.split(';')[1];
