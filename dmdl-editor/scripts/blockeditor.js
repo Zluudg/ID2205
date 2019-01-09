@@ -8,24 +8,34 @@ BlockEditor.prototype.setFocus = function(focus) {
     this.currentBlock = focus;
     if (focus === null)
         return;
+
     var header = document.createElement('h2');
     header.innerHTML = focus.uniqueID;
     this.editor.appendChild(header);
-    var l = this.currentBlock.portList.length;
-    for (var i=0; i<l; i++) {
-        var port = this.currentBlock.portList[i];
+    
+    this.addPortCheckboxes();
+
+    //this.addBlockSpecificCheckboxes(this.currentBlock);
+    //this.addBlockSpecificRadiobuttons
+    
+}
+
+BlockEditor.prototype.addPortCheckboxes = function() {
+
+    for (var i=0; i<this.currentBlock.portList.length; i++) {
         var newDiv = document.createElement('div');
         var newCheckBox = document.createElement('input');
         var newLabel = document.createElement('LABEL');
+
         newCheckBox.type = 'checkbox';
-        newCheckBox.id = 'check' + port.type; 
+        newCheckBox.id = 'check' + this.currentBlock.portList[i].type; 
         newCheckBox.checked = true;
-        if (port.state == 'disabled')
+        if (this.currentBlock.portList[i].state == 'disabled')
             newCheckBox.checked = false;
         newCheckBox.name = newCheckBox.id;
         newLabel.htmlFor = newCheckBox.id;
-        newLabel.innerHTML = port.type;
-        if (port.state == 'mandatory')    
+        newLabel.innerHTML = this.currentBlock.portList[i].type;
+        if (this.currentBlock.portList[i].state == 'mandatory')    
             newCheckBox.disabled = true;
         else {
             var stateBE = this; //closure
