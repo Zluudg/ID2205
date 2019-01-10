@@ -165,12 +165,8 @@
 	\includegraphics[width=0.2\linewidth]{wireless.eps}
 \end{frame}
 
-\subsection{Decomposite MAC Description Language}
 \begin{frame}{Decomposite MAC Description Language}
-	\begin{figure}
- 		\includegraphics[width=\linewidth]{simple_timer.png}
- 		\label{fig:timer}
-	\end{figure}
+    Dmdl uses HFSM, that is better than traditional EFSM. (Elaborate)
 \end{frame}
 
 \begin{frame}{Decomposite MAC Description Language}
@@ -180,12 +176,25 @@
 	\end{figure}
 \end{frame}
 
+\subsection{Decomposite MAC Description Language}
+\begin{frame}{Decomposite MAC Description Language}
+	\begin{figure}
+ 		\includegraphics[width=\linewidth]{simple_timer.png}
+ 		\label{fig:timer}
+	\end{figure}
+\end{frame}
+
 \subsection{Motivation}
 \begin{frame}{Motivation}
 	\begin{figure}
  		\includegraphics[width=\linewidth]{pure_aloha.png}
  		\label{fig:aloha}
 	\end{figure}
+\end{frame}
+
+\begin{frame}{Where does this project fit in?}
+	\includegraphics[width=\linewidth]{digital.eps}
+	%https://all-free-download.com/free-vector/download/digital-communication-concept-cityscape-and-ui-design-style_6826344.html
 \end{frame}
 
 \section{Demo}
@@ -282,10 +291,10 @@ Time for a quick demo!
 \section{Summary}
 \begin{frame}{Summary}
 	\begin{itemize}
-		\item Simple drag-and-drop interface for drawing block diagrams
-        \item Configurable blocks
-		\item Detects loose wires
-        \item Export to .xml-file for use wthin other environments/platforms
+		\item<2->  Simple drag-and-drop interface for drawing block diagrams
+        \item<3->  Configurable blocks (slider, radiobutton, checkbutton)
+		\item<4->  Detects loose wires
+        \item<5->  Export to .xml-file for use wthin other environments
 	\end{itemize}
 \end{frame}
 
@@ -293,7 +302,7 @@ Time for a quick demo!
 \begin{frame}{Future Work}
 	\begin{itemize}
 		\item<2-> Backend that can simulate the system
-		\item<3-> ''Glue'' between .xml-file and software such as GNURadio or Simulink
+		\item<3-> ''Glue'' between .xml-file and existing software
 		\item<4-> Build a tool for adding new block types
 	\end{itemize}
 \end{frame}
