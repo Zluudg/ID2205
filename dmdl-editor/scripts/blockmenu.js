@@ -21,7 +21,7 @@ function BlockMenu(menu) {
     var exportBtn = document.getElementById("exportBtn");
     exportBtn.addEventListener('click',
         function(e) {
-            var filename = prompt("Please enter a filename", "Untitled");
+            var filename = TextIO.input("Please enter a filename", "Untitled");
             if (filename === null || filename === undefined)
                 filename = "Untitled";
             Net.exportXML(filename);
