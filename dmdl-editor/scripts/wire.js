@@ -3,11 +3,15 @@ function Wire(p1, p2) {
     this.endPort = p2;
 
     this.DEFAULT_WIRE_COLOR = '#000000';
+    this.DEFAULT_BAD_WIRE_COLOR = '#FF0000';
     this.DEFAULT_LINE_WIDTH = 1;
 }
 
 Wire.prototype.draw = function(ctx) {
     ctx.strokeStyle = this.DEFAULT_WIRE_COLOR;
+    if (this.startPort.state === 'disabled' ||
+        this.endPort.state === 'disabled')
+        ctx.strokeStyle = this.DEFAULT_BAD_WIRE_COLOR;
     ctx.lineWidth = this.DEFAULT_LINE_WIDTH;
     ctx.setLineDash([]);
     ctx.beginPath();
