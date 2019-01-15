@@ -113,7 +113,7 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+   \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
@@ -434,6 +434,14 @@ traditional models of facilitating cross-layer optimization and providing a bett
 model. Additionally, its modular approach to protocol design ensures high code reusability and
 flexibility.
 
+The main components of DMDL are blocks, commands and ports. The blocks correspond to actors
+in an SDF graph and they perform basic MAC functions such as carrier sensing and framing.
+Commands correspond to the tokens in an SDF graph and they are consumed or produced by input
+and output ports, respectively. Any given block has a number of mandatory ports which must
+be used if the block is to function, and a number of optional ports that the developer may
+use if additional functionality of the block is desired.
+
+
 There are several frameworks for graphically programming SDRs. Arguably, the to most notable
 ones are~\cite{labview} and GNU Radio~\cite{gr}, which mainly target the
 Universal Software Radio Peripheral (USRP)~\cite{usrp} SDR platform. However, they do not
@@ -447,11 +455,107 @@ service, SDRaaS if you will, thereby making an effort to promote swift MAC proto
 prototyping.
 
 \section{Method}
-\subsection{Web Development}
+As a web-based application, the DE consists solely of JavaScript (JS), HTML 5 and CSS 3 source
+code. No web frameworks such as JQuery, React or Angular were used since the developer had no
+prior experience with web development and therefore chose to keep everything as simple as possible
+as a first iteration of developing the DE. The JS code mainly follows the EcmaScript 5 standard to
+ensure compatibility even for older devices and browsers.
+
 \subsection{Code Overview}
-\subsection{XML Structure}
+Figure~\ref{fig:uml} shows a Universal Modeling Language (UML) diagram for the DE and how the
+underlying JS classes interact. The blocks labeled Workspace, BlockEditor and BlockMenu are the
+main HTML elements where most of the user interaction is done. The blocks with underlined labels
+represent the DMDL components, namely blocks and ports.There is no implementation of the DMDL
+command concept, which is why the corresponding blocks have a dashed outline.
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{dmdl-editor.png}
+\caption{A UML overview of the JS code for the DE.}
+\label{fig:uml}
+\end{figure}
+
+\subsection{DMDL Subclasses}
+The structure of the code aims to separate the User Interface UI components and the DMDL components
+into different classes in order to achieve a maintainable and easily extendable codebase.
+Furthermore, the DMDL classes are kept as minimal as possible in order for easy implementation
+of new DMDL blocks or ports, the majority of the functionality (such as being drawn or being
+dragged) sits within the corresponding superclasses. Fig.~\ref{fig:timer_src} shows the source code
+for the DMDL timer block. It starts by calling the constructor of the block superclass with the
+coordinates at which the block is created and a list of ports that are available to the block.
+After that is a list of configurable parameters for the block. Lastly, a number of strings
+are placed in an associative array where each string represent how a parameter is configurable,
+what the options are and what the default value is.
+\begin{figure}[!t]
+\centering
+    \includegraphics[width=\columnwidth]{timer_src.png}
+    \caption{Source code for the Timer class' constructor.}
+    \label{fig:timer_src}
+\end{figure}
+
+\subsection{Link Between DE and Other Software}
+The DE can be used to create an Extensible Markup Language (XML) file that represents the
+graph/protocol that the developer has created. The XML file is thought to serve as the main link
+between the DE and other tools. XML was chosen since it is widely used to represent software
+objects such as graphs or diagrams in professional development tools such as GNU Radio and
+Lab View. The structure of the XML file was specifically designed for the DE.
+
+The XML file structure is based on the notion of a netlist, which is commonly used within the
+electronic design automation industry~\cite{netlist}. Subsection~\ref{sec:xml} discusses the
+structure in more detail from an example.
+
 \section{Results and Analysis}
-\section{Discussion}
+[Introduce blocks/wires and show a screenshot of the application in action.]
+\subsection{XML Structure}
+Exporting the drawn graph to an XML file is done in the Net class through a static function.
+The net class keeps track of which ports are connected to eachother. If one is able to
+travel from one port to another over wires without going through any blocks, the ports
+belong to the same net. Fig.~\ref{fig:net} shows the two nets present in a graph representing
+a poisson source.
+
+The exported XML mainly consists of a number of block entries, one for each block in the graph.
+Fig.~\ref{fig:xml1} and Fig.~\ref{fig:xml2} shows the the XML code for the top right block in
+Fig.~\ref{fig:net}. Here follows a rundown of the segments.
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{poisson_block_cfg.pdf}
+    \caption{XML code for a timer block entry, part 1.}
+    \label{fig:xml1}
+\end{figure}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{poisson_block_port.pdf}
+    \caption{XML code for a timer block entry, part 2.}
+    \label{fig:xml2}
+\end{figure}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{poisson_nets.png}
+    \caption{A graph representing a Poisson source with its two nets pointed out.}
+    \label{fig:net}
+\end{figure}
+
+\subsubsection{Basic Info - Blue Segment}
+This segment contains the most basic info about the block, namely
+what type of block it is and its unique ID in the current project.
+
+\subsubsection{Configurations - Purple Segment}
+This segment contains information on how the block has been configured. Note
+the similarity to associative array entries in Fig.~\ref{fig:timer_src}.
+
+\subsubsection{Port List - Brown Segment}
+This segment contains a list of all ports that are connected to a net. Every port entry contains
+the port type, what mode it is operating in (some ports can operate as both inputs and outputs)
+and what net the port is connected to. Ports can be connected to at most one net. Ports that
+are not connected to any net do not show up here. The color coding of the net-entries correspond
+to the colors of the annotations in Fig.~\ref{fig:net}.
+
+\subsection{Syntax Check}
+The DE can detect one basic error of syntactic character. This error occurs when a port is
+disabled after it has had wires attached to it. This type of error is shown by the wire turning
+red. The user is also alerted of this error, if it exists, when clicking the ''Syntax Check''
+or ''Export'' button. This error also prevents the user from exporting the graph to an XML file.
+
+\label{sec:xml}
 \section{Conclusion}
 
 % An example of a floating figure using the graphicx package.
