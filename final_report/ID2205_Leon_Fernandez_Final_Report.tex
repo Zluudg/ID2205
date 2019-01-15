@@ -378,14 +378,13 @@
 
 
 \begin{document}
-\title{Project Report for ID2205}
+\title{A Development Environment for Decomposite MAC Description Language}
 \author{Leon Fernandez}
-\markboth{ID2205: Final Project Report}%
-{A Web-based DE for DMDL}
+\markboth{ID2205 Final Report}%
+{A DE for DMDL}
 \maketitle
 
 \begin{abstract}
-sdaökfoj aaödlsfgj as sdflkgj sdölfgj  sdöflgkj sdfg sdölgkj sdv njv kdfjvn sds djkg sdfökgn dsöfkngsd öjng
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -393,14 +392,67 @@ Software Defined Radio, Medium Access Control, Graphical Programming.
 \end{IEEEkeywords}
 
 \section{Introduction}
-\IEEEPARstart{T}{his} report summarizes the development of a web-based DE for the language discussed in \cite{dmdl}.
+\IEEEPARstart{W}{ireless technology} is an essential part of our everyday lives and it is
+being adopted literally everywhere. High or low, big or small, wireless technology can
+find applications of all kinds. From high performance cellphone base stations to low-cost,
+low-energy sensor networks. The diversity of wireless systems is tremendous, to say the least,
+and embracing the diversity allows the limited resource that is the Electromagnetic EM spectrum to
+be used more efficiently.
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+The Software Defined Radio (SDR)~\cite{sdr} is a reconfigurable transceiver that can be programmed
+to the developer's liking entirely by software. Within the diverse field of wireless research,
+it is an essential tool for prototyping and developing the protocols and systems of tomorrow.
 
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
+The OSI model~\cite{osi} paints a rough picture that provides a basic understanding of
+how a networking stack is implemented. It consists of seven layers that each contain different
+functionalities that together realize a communication between two networking devices. The bottom
+two layers, the Physical (PHY) and Data Link (DL) layers, have traditionally been implemented
+in hardware and the remaining five in software. Software implementations are generally more
+flexible and easier to develop, which is desirable within a dynamic field such as wireless
+research. Through the SDR, the PHY layer can can be be implemented in software as well.
 
+Before a fully softwarized network stack can be realized, a framework for defining DL functionality
+is needed. An important step towards that is the softwarization of the DL sublayer
+called Medium Access Control (MAC), which provides the functionality of coordination among nodes
+in order to keep interferance within a wireless system down. For this,
+Decomposite MAC Description Language (DMDL)~\cite{dmdl} has been developed.
+
+By providing a web-based front-end for a DMDL Development Environment (DE) the accessibility
+and platform-independence of DMDL can be boosted. Following trends such as
+Platform as a Service (PaaS) or Hardware as a Service (HaaS), this project aims to take a first
+step towords something that could be regarded as SDR as a Service (SDRaaS). Promoting DMDL in
+this was can help achieve a softwarization of the entire network stack, which in turn promotes
+diversity so that wireless systems can continue to thrive. 
+
+
+\section{Related Work}
+DMDL is a graphical programming language designed for the purpose of developing and implementing
+MAC protocols in a swift and flexible manner whilst being platform-independent. DMDL models
+MAC protocols as a Hierarchical Finite State Machine (HFSM)~\cite{hfsm} in which each state is
+described by a Synchronous Dataflow Graph (SDF)~\cite{sdf}. This has the advantage over more
+traditional models of facilitating cross-layer optimization and providing a better concurrency
+model. Additionally, its modular approach to protocol design ensures high code reusability and
+flexibility.
+
+There are several frameworks for graphically programming SDRs. Arguably, the to most notable
+ones are~\cite{labview} and GNU Radio~\cite{gr}, which mainly target the
+Universal Software Radio Peripheral (USRP)~\cite{usrp} SDR platform. However, they do not
+provide any formal framework for MAC protocol development. Due to the licensing costs of Lab View
+and the cost of USRP hardware, some developers might see limited use of these frameworks.
+
+By providing a browser-based DE for DMDL that is platform independent, a framework can be provided
+to actors otherwise unable to utilize Lab View and/or USRP such as small companies or research
+groups with limited funds. In a PaaS- or HaaS-like manner, SDR experiment rigs can be provided as a
+service, SDRaaS if you will, thereby making an effort to promote swift MAC protocol development and
+prototyping.
+
+\section{Method}
+\subsection{Web Development}
+\subsection{Code Overview}
+\subsection{XML Structure}
+\section{Results and Analysis}
+\section{Discussion}
+\section{Conclusion}
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -499,8 +551,7 @@ Subsubsection text here.
 
 
 
-\section{Conclusion}
-The conclusion goes here.
+
 
 
 
@@ -520,26 +571,29 @@ The conclusion goes here.
 % starts a section numbered zero.)
 %
 
-
-\appendices
-\section{Proof of the First Zonklar Equation}
-Appendix one text goes here.
-
-% you can choose not to have a title for an appendix
-% if you want by leaving the argument blank
-\section{}
-Appendix two text goes here.
-
+\if 0
+    \appendices
+    \section{Proof of the First Zonklar Equation}
+    Appendix one text goes here.
+    % you can choose not to have a title for an appendix
+    % if you want by leaving the argument blank
+    \section{}
+    Appendix two text goes here.
+\fi
 
 % use section* for acknowledgment
 \section*{Acknowledgment}
-Thanks to Peng Wang for supervising this project.
+The author would like to thank Dr. Peng Wang for supervising this project, for giving valuable
+feedback during the process and for sharing his work on DMDL. The author would also like to thank
+Dr. Christian Schulte for providing the opportunity to carry out this project in a formal setting
+and for sharing his thoughts and experiences.
 
 % Can use something like this to put references on a page
 % by themselves when using endfloat and the captionsoff option.
 \ifCLASSOPTIONcaptionsoff
   \newpage
 \fi
+
 
 
 
@@ -578,9 +632,9 @@ Thanks to Peng Wang for supervising this project.
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
 
-\begin{IEEEbiography}{Leon Fernandez}
-Was born in 1991 and decided to become a Pokemon trainer at age 7.
-\end{IEEEbiography}
+%\begin{IEEEbiography}{Leon Fernandez}
+%Was born in 1991 and decided to become a Pokemon trainer at age 7.
+%\end{IEEEbiography}
 
 
 % You can push biographies down or up by placing
