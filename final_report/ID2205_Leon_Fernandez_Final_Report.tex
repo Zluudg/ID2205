@@ -385,6 +385,19 @@
 \maketitle
 
 \begin{abstract}
+In order to tackle the ever-increasing demands on wireless capacity and diversity,
+Decomposite MAC Description Language (DMDL) has be developed. DMDL is a graphical
+programming language that allows the user to intuitively and swiftly describe and
+prototype Medium Access Control (MAC) protocols without platform dependence.
+In order to embrace the platform independence of DMDL, a web-based Development Environment (DE)
+has been built. The DE is thought to act as a front-end in a system that allows a user to
+simulate or even implement MAC protocols with frameworks such as LabVIEW and GNU Radio and
+platforms such as USRP acting as a back-end. This is arguably an important step towards a
+full softwarization of the network stack and can provide much needed flexibility in developing
+wireless systems. The DE is mainly used to create and export an XML file that represent the DMDL
+description a protocol. The XML file will act as an intermediate file between the DE and existing
+frameworks for wireless protocol development.
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -445,11 +458,11 @@ use if additional functionality of the block is desired.
 There are several frameworks for graphically programming SDRs. Arguably, the to most notable
 ones are~\cite{labview} and GNU Radio~\cite{gr}, which mainly target the
 Universal Software Radio Peripheral (USRP)~\cite{usrp} SDR platform. However, they do not
-provide any formal framework for MAC protocol development. Due to the licensing costs of Lab View
+provide any formal framework for MAC protocol development. Due to the licensing costs of LabVIEW
 and the cost of USRP hardware, some developers might see limited use of these frameworks.
 
 By providing a browser-based DE for DMDL that is platform independent, a framework can be provided
-to actors otherwise unable to utilize Lab View and/or USRP such as small companies or research
+to actors otherwise unable to utilize LabVIEW and/or USRP such as small companies or research
 groups with limited funds. In a PaaS- or HaaS-like manner, SDR experiment rigs can be provided as a
 service, SDRaaS if you will, thereby making an effort to promote swift MAC protocol development and
 prototyping.
@@ -497,15 +510,32 @@ The DE can be used to create an Extensible Markup Language (XML) file that repre
 graph/protocol that the developer has created. The XML file is thought to serve as the main link
 between the DE and other tools. XML was chosen since it is widely used to represent software
 objects such as graphs or diagrams in professional development tools such as GNU Radio and
-Lab View. The structure of the XML file was specifically designed for the DE.
+LabVIEW. The structure of the XML file was specifically designed for the DE.
 
 The XML file structure is based on the notion of a netlist, which is commonly used within the
 electronic design automation industry~\cite{netlist}. Subsection~\ref{sec:xml} discusses the
 structure in more detail from an example.
 
 \section{Results and Analysis}
-[Introduce blocks/wires and show a screenshot of the application in action.]
+Fig.~\ref{fig:full_editor} shows a screenshot of the Aloha protocol~\cite{aloha} implemented
+in the DE. To the left is the block menu, where the user selects which type of block will be
+placed. The rightmost element is where the configuration of placed blocks is performed. The
+block being configured is chosen by clicking on it, which also marks it with a green rectangle.
+The middle element is the main workspace where blocks are dragged around and were wires are
+drawn. Wires are drawn by left-clicking on a port and moving the mouse over to another port and
+then releasing the button.
+
+The DE has been tested to work in the browsers Firefox 64.0, Chromium 71.0 and Epiphany 3.28.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{full_editor.png}
+    \caption{A screenshot of the Aloha protocol~\cite{aloha} implemented in the DE.}
+    \label{fig:full_editor}
+\end{figure}
+
 \subsection{XML Structure}
+\label{sec:xml}
 Exporting the drawn graph to an XML file is done in the Net class through a static function.
 The net class keeps track of which ports are connected to eachother. If one is able to
 travel from one port to another over wires without going through any blocks, the ports
@@ -555,8 +585,19 @@ disabled after it has had wires attached to it. This type of error is shown by t
 red. The user is also alerted of this error, if it exists, when clicking the ''Syntax Check''
 or ''Export'' button. This error also prevents the user from exporting the graph to an XML file.
 
-\label{sec:xml}
+
 \section{Conclusion}
+A web-based DE for DMDL has been developed. It is lightweight and written in pure JS, CSS and HTML.
+The interface follows a standard drag-and-drop style that is common for graphical programming
+languages such as DMDL. The DE also allows the developer to export an XML that represents the graph
+that defines the behaviour of the developer's protocol.
+
+Future work include writing ''glue'' software between the exported XML-file and existing software
+such as GNU Radio or LabVIEW in order to provide a backend for the DE. Another interesting topic
+would be to write a custom backend for the DE that allows the protocol to be simulated in the 
+web browser.
+
+ 
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -686,7 +727,7 @@ or ''Export'' button. This error also prevents the user from exporting the graph
 \fi
 
 % use section* for acknowledgment
-\section*{Acknowledgment}
+\section*{Acknowledgments}
 The author would like to thank Dr. Peng Wang for supervising this project, for giving valuable
 feedback during the process and for sharing his work on DMDL. The author would also like to thank
 Dr. Christian Schulte for providing the opportunity to carry out this project in a formal setting
@@ -694,9 +735,7 @@ and for sharing his thoughts and experiences.
 
 % Can use something like this to put references on a page
 % by themselves when using endfloat and the captionsoff option.
-\ifCLASSOPTIONcaptionsoff
-  \newpage
-\fi
+\newpage
 
 
 
