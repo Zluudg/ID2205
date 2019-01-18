@@ -426,8 +426,8 @@ research. Through the SDR, the PHY layer can can be be implemented in software a
 
 Before a fully softwarized network stack can be realized, a framework for defining DL functionality
 is needed. An important step towards that is the softwarization of the DL sublayer
-called Medium Access Control (MAC), which provides the functionality of coordination among nodes
-in order to keep interference within a wireless system down. For this,
+called Medium Access Control (MAC), which provides the functionality of coordination among the
+nodes in order to keep interference within a wireless system down. For this,
 Decomposite MAC Description Language (DMDL)~\cite{dmdl} has been developed.
 
 By providing a web-based front-end for a DMDL Development Environment (DE) the accessibility
@@ -480,6 +480,7 @@ underlying JS classes interact. The blocks labeled Workspace, BlockEditor and Bl
 main HTML elements where most of the user interaction is done. The blocks with underlined labels
 represent the DMDL components, namely blocks and ports.There is no implementation of the DMDL
 command concept, which is why the corresponding blocks have a dashed outline.
+Section~\ref{sec:details} describes the classes in more detail.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{dmdl-editor.png}
@@ -488,6 +489,7 @@ command concept, which is why the corresponding blocks have a dashed outline.
 \end{figure}
 
 \subsection{DMDL Subclasses}
+\label{sec:subclasses}
 The structure of the code aims to separate the User Interface UI components and the DMDL components
 into different classes in order to achieve a maintainable and easily extendable code base.
 Furthermore, the DMDL classes are kept as minimal as possible in order for easy implementation
@@ -520,16 +522,69 @@ structure in more detail from an example.
 \section{Implementation Details}
 \label{sec:details}
 The following section describes the roles of the JS classes that make up the DE.
-\subsection{The Block Class}
 
+\subsection{The Block Class}
+The Block class defines the behavior that all the DMDL blocks share and represents a generic
+DMDL block. Most importantly, this means how the blocks shall be drawn on the workspace canvas
+and how they behave when they are about to be placed, when they are clicked or when they are being
+dragged around. All the DMDL blocks inherit these properties from the Block class and define
+some additional properties that represent their respective configuration possibilities and 
+what port types are available.
 
 \subsection{The Port Class}
+Much like the Block class, the Port class defines the properties shared by all DMDL ports.
+This consists of how the port is drawn on the workspace canvas, what happens when a port is
+clicked, which parent block it belongs to and toggling of the state if the port is an optional
+port for its parent.
+
 \subsection{The BlockMenu Class}
+There are three main HTML elements for the DE and the BlockMenu class make up the first.
+Here, DMDL blocks can be selected for placement within the workspace canvas. The BlockMenu
+is automatically updated if new DMDL block subclasses are added. In addition to block selection,
+the BlockMenu also contains the buttons for performing a syntax check and for exporting the current
+workspace to an XML file.
+
 \subsection{The Workspace Class}
+The second main HTML element is the Workspace class. It consists of an HTML 5 canvas element where
+all the blocks, ports and wires are drawn out. The Workspace class uses their respective draw
+methods to draw the elements and then paints out some extra features such as marking regions if
+a block or port has been clicked or if a block is about to be placed. Determining which block will
+be selected for configuration is also done here by listening for which block the user has clicked
+most recently, if any.
+
 \subsection{The BlockEditor Class}
+The third and last main HTML element is the BlockEditor class. If a user has not clicked any block
+it is empty. Otherwise, it is filled up with the configurations that are available to the block in
+the workspace that the user has clicked on most recently. Which ports the block will have are
+selected through check buttons and mandatory ports will have their check buttons disabled. What
+other configurations that can be made depends on the type of block but there are currently three
+ways of inputting configurations. These are radio buttons for enumerations, slider for integer
+ranges and check buttons for boolean values.
+
 \subsection{The Wire Class}
+The Wire class is a very small class which represent a wire between two blocks. The class is
+instantiated every time the user successfully draws a wire in the canvas. The properties of
+the Wire class consist of a method that describes how a wire is drawn and properties that
+contain a wire object's start and end port. A wire can only be connected to two ports, but it
+does not matter if it is between two input ports, two output ports or one of each.
+
 \subsection{The Net Class}
+Objects of the Net class represent a net in the graph. In this context a net is defined as a subset
+of the entire set of wires that contains all wires that can be traversed without going through a
+block. A wire can only belong to one net and a net must consist of at least one wire. The union of
+all nets in a graph make up the entire set of wires for the same graph. Fig.~\ref{fig:net}
+shows a simple graph consisting of two nets. Since the XML file that can be exported with the DE
+is heavily based on this concept of a net, the Net class is also the class that is responsible
+for exporting the XML file.
+
 \subsection{The Syntax Checker Class}
+The Syntax Checker class consists of a number of static functions for checking different types
+of errors in the graph. The functions are called in sequence to check for one type of error
+at a time and an error message is stitched together if any errors are encountered to provide
+the user with feedback. At the time of writing, one such method has been fully implemented.
+More details of what has been implemented can be found in Section~\ref{sec:syntax}. The
+syntax check is either invoked by pressing the Syntax Check button within the BlockMenu
+element or when trying to export a graph. A failed syntax check will prevent an export.
 
 \section{Results and Analysis}
 Fig.~\ref{fig:full_editor} shows a screenshot of the Aloha protocol~\cite{aloha} implemented
@@ -572,19 +627,13 @@ a Poisson source.
 \end{figure}
 
 The exported XML mainly consists of a number of block entries, one for each block in the graph.
-Fig.~\ref{fig:xml1} and Fig.~\ref{fig:xml2} shows the the XML code for the top right block in
-Fig.~\ref{fig:net}. Here follows a rundown of the segments.
+Fig.~\ref{fig:xml} shows the the XML code for the top right block in Fig.~\ref{fig:net}. Here
+follows a rundown of the segments of the block entry in Fig.~\ref{fig:xml}:
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=\columnwidth]{poisson_block_cfg.pdf}
-    \caption{XML code for a timer block entry, part 1.}
-    \label{fig:xml1}
-\end{figure}
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width=\columnwidth]{poisson_block_port.pdf}
-    \caption{XML code for a timer block entry, part 2.}
-    \label{fig:xml2}
+    \includegraphics[width=0.7\columnwidth]{poisson_block-crop.pdf}
+    \caption{XML code for the top-right timer block in Fig.~\ref{fig:net}.}
+    \label{fig:xml}
 \end{figure}
 
 \subsubsection{Basic Info - Blue Segment}
@@ -603,6 +652,7 @@ are not connected to any net do not show up here. The color coding of the net-en
 to the colors of the annotations in Fig.~\ref{fig:net}.
 
 \subsection{Syntax Check}
+\label{sec:syntax}
 The DE can detect one basic error of syntactic character. This error occurs when a port is
 disabled after it has had wires attached to it. This type of error is shown by the wire turning
 red. The user is also alerted of this error, if it exists, when clicking the ''Syntax Check''
