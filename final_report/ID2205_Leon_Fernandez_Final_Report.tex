@@ -82,8 +82,8 @@
 % When switching from latex to pdflatex and vice-versa, the compiler may
 % have to be run twice to clear warning/error messages.
 
-
-
+% Packages for coloring entries in the milestone table in the appendix
+\usepackage{xcolor}
 
 
 
@@ -386,7 +386,7 @@
 
 \begin{abstract}
 In order to tackle the ever-increasing demands on wireless capacity and diversity,
-Decomposite MAC Description Language (DMDL) has be developed. DMDL is a graphical
+Decomposite MAC Description Language (DMDL) has been developed. DMDL is a graphical
 programming language that allows the user to intuitively and swiftly describe and
 prototype Medium Access Control (MAC) protocols without platform dependence.
 In order to embrace the platform independence of DMDL, a web-based Development Environment (DE)
@@ -492,12 +492,13 @@ The structure of the code aims to separate the User Interface UI components and 
 into different classes in order to achieve a maintainable and easily extendable codebase.
 Furthermore, the DMDL classes are kept as minimal as possible in order for easy implementation
 of new DMDL blocks or ports, the majority of the functionality (such as being drawn or being
-dragged) sits within the corresponding superclasses. Fig.~\ref{fig:timer_src} shows the source code
-for the DMDL timer block. It starts by calling the constructor of the block superclass with the
-coordinates at which the block is created and a list of ports that are available to the block.
-After that is a list of configurable parameters for the block. Lastly, a number of strings
-are placed in an associative array where each string represent how a parameter is configurable,
-what the options are and what the default value is.
+dragged) sits within the corresponding superclasses, more info about them can be found in
+Section~\ref{sec:details}. Fig.~\ref{fig:timer_src} shows the source code for the DMDL timer block.
+It starts by calling the constructor of the block superclass with the coordinates at which the
+block is created and a list of ports that are available to the block. After that is a list of 
+configurable parameters for the block. Lastly, a number of strings are placed in an associative
+array where each string represent how a parameter is configurable, what the options are and what
+the default value is.
 \begin{figure}[!t]
 \centering
     \includegraphics[width=\columnwidth]{timer_src.png}
@@ -516,6 +517,18 @@ The XML file structure is based on the notion of a netlist, which is commonly us
 electronic design automation industry~\cite{netlist}. Subsection~\ref{sec:xml} discusses the
 structure in more detail from an example.
 
+\section{Implementation Details}
+\label{sec:details}
+The following section describes the roles of the JS classes that make up the DE.
+\subsection{The Block Class}
+\subsection{The Port Class}
+\subsection{The BlockMenu Class}
+\subsection{The Workspace Class}
+\subsection{The BlockEditor Class}
+\subsection{The Wire Class}
+\subsection{The Net Class}
+\subsection{The Syntax Checker Class}
+
 \section{Results and Analysis}
 Fig.~\ref{fig:full_editor} shows a screenshot of the Aloha protocol~\cite{aloha} implemented
 in the DE. To the left is the block menu, where the user selects which type of block will be
@@ -523,7 +536,7 @@ placed. The rightmost element is where the configuration of placed blocks is per
 block being configured is chosen by clicking on it, which also marks it with a green rectangle.
 The middle element is the main workspace where blocks are dragged around and were wires are
 drawn. Wires are drawn by left-clicking on a port and moving the mouse over to another port and
-then releasing the button.
+then releasing the button. The process of wiring can be seen in Fig.~\ref{fig:wiring}.
 
 The DE has been tested to work in the browsers Firefox 64.0, Chromium 71.0 and Epiphany 3.28.
 
@@ -534,6 +547,13 @@ The DE has been tested to work in the browsers Firefox 64.0, Chromium 71.0 and E
     \label{fig:full_editor}
 \end{figure}
 
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{wiring.png}
+    \caption{The process of drawing a wire between two ports.}
+    \label{fig:wiring}
+\end{figure}
+
 \subsection{XML Structure}
 \label{sec:xml}
 Exporting the drawn graph to an XML file is done in the Net class through a static function.
@@ -541,6 +561,13 @@ The net class keeps track of which ports are connected to eachother. If one is a
 travel from one port to another over wires without going through any blocks, the ports
 belong to the same net. Fig.~\ref{fig:net} shows the two nets present in a graph representing
 a poisson source.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{poisson_nets.png}
+    \caption{A graph representing a Poisson source with its two nets pointed out.}
+    \label{fig:net}
+\end{figure}
 
 The exported XML mainly consists of a number of block entries, one for each block in the graph.
 Fig.~\ref{fig:xml1} and Fig.~\ref{fig:xml2} shows the the XML code for the top right block in
@@ -556,12 +583,6 @@ Fig.~\ref{fig:net}. Here follows a rundown of the segments.
     \includegraphics[width=\columnwidth]{poisson_block_port.pdf}
     \caption{XML code for a timer block entry, part 2.}
     \label{fig:xml2}
-\end{figure}
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width=\columnwidth]{poisson_nets.png}
-    \caption{A graph representing a Poisson source with its two nets pointed out.}
-    \label{fig:net}
 \end{figure}
 
 \subsubsection{Basic Info - Blue Segment}
@@ -585,18 +606,30 @@ disabled after it has had wires attached to it. This type of error is shown by t
 red. The user is also alerted of this error, if it exists, when clicking the ''Syntax Check''
 or ''Export'' button. This error also prevents the user from exporting the graph to an XML file.
 
+\section{Future Work}
+As there are many ways of doing wireless protocol simulation, prototyping and implementation, the
+DE needs to be extended with intermediate layers of software in order to provide the user with
+the platform independence and flexibility that DMDL promises. Important examples of this
+intermediate software include:
+\begin{itemize}
+    \item Define an XML schema for the XML file that the DE exports. This is to facilitate
+          future work with the XML file such as using it for code generation. It is also a
+          suitable way to document the XML file's structure.
+    \item Frameworks such as GNU Radio and LabVIEW use XML to describe work done by the user.
+          By writing software that converts between the DE's XML format and other format, the
+          DE can be connected to larger frameworks that support programming of SDR platforms.
+    \item A custom backend that can simulate the user's protocol. This way, the user can
+          see the general behaviour of a protocol at an early stage in a truly
+          platform-independent and easily accessible way.
+\end{itemize}
 
 \section{Conclusion}
 A web-based DE for DMDL has been developed. It is lightweight and written in pure JS, CSS and HTML.
 The interface follows a standard drag-and-drop style that is common for graphical programming
-languages such as DMDL. The DE also allows the developer to export an XML that represents the graph
-that defines the behaviour of the developer's protocol.
-
-Future work include writing ''glue'' software between the exported XML-file and existing software
-such as GNU Radio or LabVIEW in order to provide a backend for the DE. Another interesting topic
-would be to write a custom backend for the DE that allows the protocol to be simulated in the 
-web browser.
-
+languages such as DMDL. The DE also allows the developer to export an XML file that represents the
+graph that defines the behaviour of the developer's protocol. This XML file has the potential to
+be used within a wide variety of frameworks and platforms for digital radio research and
+development.
  
 
 % An example of a floating figure using the graphicx package.
@@ -693,39 +726,6 @@ web browser.
 % footnotes above bottom floats. This can be corrected via the
 % \fnbelowfloat command of the stfloats package.
 
-
-
-
-
-
-
-
-
-
-% if have a single appendix:
-%\appendix[Proof of the Zonklar Equations]
-% or
-%\appendix  % for no appendix heading
-% do not use \section anymore after \appendix, only \section*
-% is possibly needed
-
-% use appendices with more than one appendix
-% then use \section to start each appendix
-% you must declare a \section before using any
-% \subsection or using \label (\appendices by itself
-% starts a section numbered zero.)
-%
-
-\if 0
-    \appendices
-    \section{Proof of the First Zonklar Equation}
-    Appendix one text goes here.
-    % you can choose not to have a title for an appendix
-    % if you want by leaving the argument blank
-    \section{}
-    Appendix two text goes here.
-\fi
-
 % use section* for acknowledgment
 \section*{Acknowledgments}
 The author would like to thank Dr. Peng Wang for supervising this project, for giving valuable
@@ -792,7 +792,48 @@ and for sharing his thoughts and experiences.
 % is flush with the other column.
 %\enlargethispage{-5in}
 
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
 
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+\newpage
+\appendices
+\section{Project Milestones}
+\label{app:milestones}
+The development of the DE had a project structure with a number of milestones marking the
+expected completion date of certain central functionality of the DE. Most of the milestones
+were met on time with the exception of four milestones. This was due to an increased workload
+in another project, caused the development for the DE to stall for roughly two weeks in
+mid-december. These task were instead completed in early-to-mid January. Table~\ref{tab:milestones} shows an overview of the milestones.
+
+\begin{table}[!ht]
+\renewcommand{\arraystretch}{1.3}
+\caption{A table showing}
+\label{tab:milestones}
+\centering
+\begin{tabular}{|c|c|c|} \hline
+		\textbf{Milestone} & \textbf{Target Date} & \textbf{Completed} \\ \hline
+		Change appearance & Nov 2nd & \color{green}{In Time} \\ \hline
+		Place blocks & Nov 7th & \color{green}{In Time} \\ \hline
+		Block ports & Nov 12th & \color{green}{In Time} \\ \hline
+		Connect ports & Nov 19th & \color{green}{In Time} \\ \hline
+		Dropdown config & Nov 29th & \color{green}{In Time} \\ \hline
+		Block internals & Dec 14th & \color{blue}{Early/Mid January} \\ \hline
+		Store config & Dec 18th & \color{blue}{Early/Mid January} \\ \hline
+		Check+Start buttons & Dec 21st & \color{blue}{Early/Mid January} \\ \hline
+		Syntax check & Jan 7th & \color{blue}{Early/Mid January} \\ \hline
+		Final presentation & Mid-January & \color{green}{Done} \\ \hline
+\end{tabular}
+\end{table}
 
 % that's all folks
 \end{document}
