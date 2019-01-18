@@ -314,7 +314,7 @@
 
 
 %\ifCLASSOPTIONcaptionsoff
-%  \usepackage[nomarkers]{endfloat}
+% \usepackage[nomarkers]{endfloat}
 % \let\MYoriglatexcaption\caption
 % \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
 %\fi
@@ -336,8 +336,8 @@
 % captions of packages such as subfig.sty that lack options to turn off
 % the subcaptions:
 % For subfig.sty:
-% \let\MYorigsubfloat\subfloat
-% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+%\let\MYorigsubfloat\subfloat
+%\renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
 % However, the above trick will not work if both optional arguments of
 % the \subfloat command are used. Furthermore, there needs to be a
 % description of each subfigure *somewhere* and endfloat does not add
@@ -394,7 +394,7 @@ has been built. The DE is thought to act as a front-end in a system that allows 
 simulate or even implement MAC protocols with frameworks such as LabVIEW and GNU Radio and
 platforms such as USRP acting as a back-end. This is arguably an important step towards a
 full softwarization of the network stack and can provide much needed flexibility in developing
-wireless systems. The DE is mainly used to create and export an XML file that represent the DMDL
+wireless systems. The DE is mainly used to create and export an XML file that represents the DMDL
 description a protocol. The XML file will act as an intermediate file between the DE and existing
 frameworks for wireless protocol development.
 
@@ -418,11 +418,11 @@ it is an essential tool for prototyping and developing the protocols and systems
 
 The OSI model~\cite{osi} paints a rough picture that provides a basic understanding of
 how a networking stack is implemented. It consists of seven layers that each contain different
-functionalities that together realize a communication between two networking devices. The bottom
-two layers, the Physical (PHY) and Data Link (DL) layers, have traditionally been implemented
-in hardware and the remaining five in software. Software implementations are generally more
-flexible and easier to develop, which is desirable within a dynamic field such as wireless
-research. Through the SDR, the PHY layer can can be be implemented in software as well.
+functionalities that together realize a communication link between two networking devices. The
+bottom two layers, the Physical (PHY) and Data Link (DL) layers, have traditionally been
+implemented in hardware and the remaining five in software. Software implementations are generally
+more flexible and easier to develop, which is desirable within a dynamic field such as wireless
+research. Through the SDR, the PHY layer can be be implemented in software as well.
 
 Before a fully softwarized network stack can be realized, a framework for defining DL functionality
 is needed. An important step towards that is the softwarization of the DL sublayer
@@ -432,7 +432,7 @@ Decomposite MAC Description Language (DMDL)~\cite{dmdl} has been developed.
 
 By providing a web-based front-end for a DMDL Development Environment (DE) the accessibility
 and platform-independence of DMDL can be boosted. Following trends such as
-Platform as a Service (PaaS) or Hardware as a Service (HaaS), this project aims to take a first
+Platform as a Service (PaaS) or Hardware as a Service (HaaS), this project aims to take the first
 step towards something that could be regarded as SDR as a Service (SDRaaS). Promoting DMDL in
 this was can help achieve a softwarization of the entire network stack, which in turn promotes
 diversity so that wireless systems can continue to thrive. 
@@ -475,18 +475,12 @@ as a first iteration of developing the DE. The JS code mainly follows the EcmaSc
 ensure compatibility even for older devices and browsers.
 
 \subsection{Code Overview}
-Figure~\ref{fig:uml} shows a Universal Modeling Language (UML) diagram for the DE and how the
-underlying JS classes interact. The blocks labeled Workspace, BlockEditor and BlockMenu are the
-main HTML elements where most of the user interaction is done. The blocks with underlined labels
-represent the DMDL components, namely blocks and ports.There is no implementation of the DMDL
-command concept, which is why the corresponding blocks have a dashed outline.
-Section~\ref{sec:details} describes the classes in more detail.
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{dmdl-editor.png}
-\caption{A UML overview of the JS code for the DE.}
-\label{fig:uml}
-\end{figure}
+Figure~\ref{fig:uml} in Appendix~\ref{app:uml} shows a Universal Modeling Language (UML) diagram
+for the DE and how the underlying JS classes interact. The blocks labeled Workspace, BlockEditor
+and BlockMenu are the main HTML elements where most of the user interaction is done. The blocks
+with underlined labels represent the DMDL components, namely blocks and ports. There is no
+implementation of the DMDL command concept, which is why the corresponding blocks have a
+dashed outline. Section~\ref{sec:details} describes the classes in more detail.
 
 \subsection{DMDL Subclasses}
 \label{sec:subclasses}
@@ -658,6 +652,14 @@ disabled after it has had wires attached to it. This type of error is shown by t
 red. The user is also alerted of this error, if it exists, when clicking the ''Syntax Check''
 or ''Export'' button. This error also prevents the user from exporting the graph to an XML file.
 
+\section{Conclusion}
+A web-based DE for DMDL has been developed. It is lightweight and written in pure JS, CSS and HTML.
+The interface follows a standard drag-and-drop style that is common for graphical programming
+languages such as DMDL. The DE also allows the developer to export an XML file that represents the
+graph that defines the behavior of the developer's protocol. This XML file has the potential to
+be used within a wide variety of frameworks and platforms for digital radio research and
+development.
+
 \section{Future Work}
 As there are many ways of doing wireless protocol simulation, prototyping and implementation, the
 DE needs to be extended with intermediate layers of software in order to provide the user with
@@ -668,21 +670,12 @@ intermediate software include:
           future work with the XML file such as using it for code generation. It is also a
           suitable way to document the XML file's structure.
     \item Frameworks such as GNU Radio and LabVIEW use XML to describe work done by the user.
-          By writing software that converts between the DE's XML format and other format, the
+          By writing software that converts between the DE's XML format and other formats, the
           DE can be connected to larger frameworks that support programming of SDR platforms.
     \item A custom backend that can simulate the user's protocol. This way, the user can
           see the general behavior of a protocol at an early stage in a truly
           platform-independent and easily accessible way.
 \end{itemize}
-
-\section{Conclusion}
-A web-based DE for DMDL has been developed. It is lightweight and written in pure JS, CSS and HTML.
-The interface follows a standard drag-and-drop style that is common for graphical programming
-languages such as DMDL. The DE also allows the developer to export an XML file that represents the
-graph that defines the behavior of the developer's protocol. This XML file has the potential to
-be used within a wide variety of frameworks and platforms for digital radio research and
-development.
- 
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -787,7 +780,7 @@ and for sharing his thoughts and experiences.
 
 % Can use something like this to put references on a page
 % by themselves when using endfloat and the captionsoff option.
-\newpage
+%\newpage
 
 
 
@@ -859,6 +852,22 @@ and for sharing his thoughts and experiences.
 %
 \newpage
 \appendices
+\onecolumn
+
+\section{UML Overview}
+Fig.~\ref{fig:uml} shows an UML overview of the JS code base. Section~\ref{sec:details}
+describe the functionality of the classes in more detail.
+\vspace{2cm}
+\label{app:uml}
+\begin{figure*}[!ht]
+\includegraphics[scale=0.5]{dmdl-editor.png}
+\center
+\caption{A UML overview of the JS code for the DE.}
+\label{fig:uml}
+\end{figure*}
+
+\newpage
+
 \section{Project Milestones}
 \label{app:milestones}
 The development of the DE had a project structure with a number of milestones marking the
