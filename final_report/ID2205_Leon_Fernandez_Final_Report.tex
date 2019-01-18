@@ -412,7 +412,7 @@ low-energy sensor networks. The diversity of wireless systems is tremendous, to 
 and embracing the diversity allows the limited resource that is the Electromagnetic EM spectrum to
 be used more efficiently.
 
-The Software Defined Radio (SDR)~\cite{sdr} is a reconfigurable transceiver that can be programmed
+The Software Defined Radio (SDR)~\cite{sdr} is a re-configurable transceiver that can be programmed
 to the developer's liking entirely by software. Within the diverse field of wireless research,
 it is an essential tool for prototyping and developing the protocols and systems of tomorrow.
 
@@ -427,13 +427,13 @@ research. Through the SDR, the PHY layer can can be be implemented in software a
 Before a fully softwarized network stack can be realized, a framework for defining DL functionality
 is needed. An important step towards that is the softwarization of the DL sublayer
 called Medium Access Control (MAC), which provides the functionality of coordination among nodes
-in order to keep interferance within a wireless system down. For this,
+in order to keep interference within a wireless system down. For this,
 Decomposite MAC Description Language (DMDL)~\cite{dmdl} has been developed.
 
 By providing a web-based front-end for a DMDL Development Environment (DE) the accessibility
 and platform-independence of DMDL can be boosted. Following trends such as
 Platform as a Service (PaaS) or Hardware as a Service (HaaS), this project aims to take a first
-step towords something that could be regarded as SDR as a Service (SDRaaS). Promoting DMDL in
+step towards something that could be regarded as SDR as a Service (SDRaaS). Promoting DMDL in
 this was can help achieve a softwarization of the entire network stack, which in turn promotes
 diversity so that wireless systems can continue to thrive. 
 
@@ -489,7 +489,7 @@ command concept, which is why the corresponding blocks have a dashed outline.
 
 \subsection{DMDL Subclasses}
 The structure of the code aims to separate the User Interface UI components and the DMDL components
-into different classes in order to achieve a maintainable and easily extendable codebase.
+into different classes in order to achieve a maintainable and easily extendable code base.
 Furthermore, the DMDL classes are kept as minimal as possible in order for easy implementation
 of new DMDL blocks or ports, the majority of the functionality (such as being drawn or being
 dragged) sits within the corresponding superclasses, more info about them can be found in
@@ -521,6 +521,8 @@ structure in more detail from an example.
 \label{sec:details}
 The following section describes the roles of the JS classes that make up the DE.
 \subsection{The Block Class}
+
+
 \subsection{The Port Class}
 \subsection{The BlockMenu Class}
 \subsection{The Workspace Class}
@@ -557,10 +559,10 @@ The DE has been tested to work in the browsers Firefox 64.0, Chromium 71.0 and E
 \subsection{XML Structure}
 \label{sec:xml}
 Exporting the drawn graph to an XML file is done in the Net class through a static function.
-The net class keeps track of which ports are connected to eachother. If one is able to
+The net class keeps track of which ports are connected to each other. If one is able to
 travel from one port to another over wires without going through any blocks, the ports
 belong to the same net. Fig.~\ref{fig:net} shows the two nets present in a graph representing
-a poisson source.
+a Poisson source.
 
 \begin{figure}[!t]
     \centering
@@ -619,7 +621,7 @@ intermediate software include:
           By writing software that converts between the DE's XML format and other format, the
           DE can be connected to larger frameworks that support programming of SDR platforms.
     \item A custom backend that can simulate the user's protocol. This way, the user can
-          see the general behaviour of a protocol at an early stage in a truly
+          see the general behavior of a protocol at an early stage in a truly
           platform-independent and easily accessible way.
 \end{itemize}
 
@@ -627,7 +629,7 @@ intermediate software include:
 A web-based DE for DMDL has been developed. It is lightweight and written in pure JS, CSS and HTML.
 The interface follows a standard drag-and-drop style that is common for graphical programming
 languages such as DMDL. The DE also allows the developer to export an XML file that represents the
-graph that defines the behaviour of the developer's protocol. This XML file has the potential to
+graph that defines the behavior of the developer's protocol. This XML file has the potential to
 be used within a wide variety of frameworks and platforms for digital radio research and
 development.
  
@@ -813,7 +815,7 @@ The development of the DE had a project structure with a number of milestones ma
 expected completion date of certain central functionality of the DE. Most of the milestones
 were met on time with the exception of four milestones. This was due to an increased workload
 in another project, caused the development for the DE to stall for roughly two weeks in
-mid-december. These task were instead completed in early-to-mid January. Table~\ref{tab:milestones} shows an overview of the milestones.
+mid-December. These task were instead completed in early-to-mid January. Table~\ref{tab:milestones} shows an overview of the milestones.
 
 \begin{table}[!ht]
 \renewcommand{\arraystretch}{1.3}
